@@ -1,0 +1,39 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: imarika-mysql
+    restart: always
+    mem_limit: 512m
+    environment:
+      MYSQL_ROOT_PASSWORD: root123456
+      MYSQL_DATABASE: imarika_db
+      MYSQL_USER: imarika
+      MYSQL_PASSWORD: imarika123
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD","mysqladmin","ping","-h","127.0.0.1","-uroot","-proot123456"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: .
+    container_name: imarika-backend
+    restart: always
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./:/app
+      - ./whisper_models:/app/whisper_models
+      - ./.env:/app/.env
+    ports:
+      - "8000:8000"
+    environment:
+      TZ: Asia/Shanghai
+
+volumes:
+  mysql_data:

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户服务协议</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+        }
+        body {
+            background: linear-gradient(135deg,#f0fcf4,#f7fffa);
+            color:#222;
+            line-height:1.7;
+        }
+        .header-bar{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            padding:16px 24%;
+            background:#ffffff;
+            border-bottom:1px solid #e8f3ec;
+        }
+        .header-left{
+            display:flex;
+            align-items:center;
+            gap:10px;
+            font-size:18px;
+            font-weight:600;
+        }
+        .logo-icon{
+            width:32px;
+            height:32px;
+            border-radius:50%;
+            background:linear-gradient(135deg,#34c773,#2b8c58);
+            color:white;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+        .back-btn{
+            color:#2b9b62;
+            cursor:pointer;
+            font-size:15px;
+        }
+        .container{
+            max-width:720px;
+            margin:32px auto;
+            background:#ffffff;
+            border-radius:18px;
+            padding:40px 48px;
+            box-shadow:0 4px 20px rgba(0,0,0,0.04);
+        }
+        h1{
+            text-align:center;
+            font-size:24px;
+            margin-bottom:24px;
+            color:#111827;
+        }
+        .tip-box{
+            background:#ecfbf2;
+            border:1px solid #b8e9cc;
+            border-radius:10px;
+            padding:16px 20px;
+            margin-bottom:32px;
+            font-size:14px;
+            color:#166534;
+        }
+        h2{
+            font-size:19px;
+            color:#14532d;
+            border-left:4px solid #34c773;
+            padding-left:12px;
+            margin:28px 0 14px;
+        }
+        h3{
+            font-size:16px;
+            margin:18px 0 8px;
+        }
+        p{
+            margin-bottom:12px;
+            font-size:15px;
+            color:#333;
+        }
+        ul{
+            padding-left:22px;
+            margin-bottom:14px;
+        }
+        .lang-top{
+            position:fixed;
+            top:14px;
+            right:24px;
+        }
+        .lang-btn{
+            margin:0 3px;
+            padding:4px 10px;
+            border-radius:4px;
+            border:1px solid #b8e9cc;
+            background:#f0faf5;
+            color:#1a6b42;
+            cursor:pointer;
+        }
+        .lang-btn.active{
+            background-color:#2b9b62;
+            color:white;
+        }
+    </style>
+</head>
+<body>
+<div class="lang-top">
+    <button class="lang-btn" onclick="setLang('zh')">中文</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('sw')">SW</button>
+</div>
+
+<div class="header-bar">
+    <div class="header-left">
+        <div class="logo-icon">🌾</div>
+        <span data-i18n="headerTitle">用户服务协议</span>
+    </div>
+    <div class="back-btn" onclick="goBack()" data-i18n="backText">← 返回</div>
+</div>
+
+<div class="container">
+    <h1 data-i18n="title">Imarika 用户服务协议</h1>
+
+    <div class="tip-box" data-i18n="tipContent">
+请您在使用本应用前仔细阅读本协议。您勾选协议并完成注册，或实际使用本应用，即表示您已阅读、理解并同意接受本协议全部内容。若您不同意，请停止使用本应用。未满 18 周岁请在监护人陪同下阅读并取得同意后使用。
+    </div>
+
+    <h2 data-i18n="chap1">一、导言</h2>
+    <p data-i18n="chap1Text">欢迎您使用「Imarika」（以下简称「本应用」或「我们」）。本应用由Imarika农业大模型研发团队提供，面向农户、农技人员及相关从业者，提供 AI 智能问答、病虫害识别、语音交互等农业信息服务。</p>
+
+    <h2 data-i18n="chap2">二、服务说明</h2>
+    <h3 data-i18n="chap2_1">2.1 服务内容</h3>
+    <p data-i18n="chap2_1_text">本应用主要提供以下服务（具体以实际上线功能为准）：</p>
+    <ul>
+        <li data-i18n="s1">智能问答：农业种植、病虫害防治、政策咨询等问答服务</li>
+        <li data-i18n="s2">病虫害识别：上传作物图片，获取识别参考结果</li>
+        <li data-i18n="s3">语音交互：语音输入问题并获取回复（视功能开放情况而定）</li>
+        <li data-i18n="s4">账户与积分：注册、登录、积分记录等配套功能</li>
+    </ul>
+
+    <h3 data-i18n="chap2_2">2.2 服务性质</h3>
+    <p data-i18n="chap2_2_text">本应用提供的种植建议、识别结果、市场与政策信息等，仅供学习参考，不构成专业农技指导、诊断结论或投资建议。具体生产决策请结合当地实际情况，并咨询当地农技部门或专业人员。<br>AI 生成内容可能存在不准确、不完整或过时的情况，您应自行判断并承担使用后果。</p>
+
+    <h3 data-i18n="chap2_3">2.3 服务变更</h3>
+    <p data-i18n="chap2_3_text">我们有权根据业务发展、技术升级、法律法规要求等，对服务内容、功能模块进行调整、暂停或终止，并通过应用内公告、弹窗等方式尽可能提前告知。</p>
+
+    <h2 data-i18n="chap3">三、账号注册与使用</h2>
+    <h3 data-i18n="chap3_1">3.1 注册资格</h3>
+    <p data-i18n="chap3_1_text">您应具备完全民事行为能力。注册时应提供真实、准确、完整的信息（如用户名、手机号等），并及时更新。</p>
+
+    <h3 data-i18n="chap3_2">3.2 账号安全</h3>
+    <p data-i18n="chap3_2_text">您应妥善保管账号及密码，对账号下的全部行为负责。如发现账号被盗用或存在异常，请立即联系我们。禁止出租、出借、转让或售卖账号。</p>
+
+    <h3 data-i18n="chap3_3">3.3 账号注销</h3>
+    <p data-i18n="chap3_3_text">您可通过应用内功能或联系客服申请注销账号。注销后，我们将停止提供服务，并在法律法规允许范围内删除或匿名化处理您的个人信息。</p>
+
+    <h2 data-i18n="chap4">四、用户行为规范</h2>
+    <p data-i18n="chap4_pre">使用本应用时，您不得从事以下行为：</p>
+    <ul>
+        <li data-i18n="u1">发布、传播违法、暴力、色情、虚假、侵权或违背公序良俗的内容</li>
+        <li data-i18n="u2">利用本应用从事诈骗、传销、赌博等违法犯罪活动</li>
+        <li data-i18n="u3">干扰、破坏本应用正常运行，如恶意刷接口、攻击服务器、逆向破解</li>
+        <li data-i18n="u4">未经授权爬取、复制、传播本应用的数据或内容</li>
+        <li data-i18n="u5">冒用他人身份注册或使用本应用</li>
+        <li data-i18n="u6">其他违反法律法规或本协议的行为</li>
+    </ul>
+    <p data-i18n="chap4_end">若您违反上述规定，我们有权采取警告、限制功能、暂停或终止服务等措施，并依法向主管部门报告。</p>
+
+    <h2 data-i18n="chap5">五、知识产权</h2>
+    <p data-i18n="chap5_text">本应用相关的软件、界面设计、商标、Logo 及文档的知识产权，归我们或相关权利人所有。未经书面许可，您不得复制、修改、传播、出售本应用的任何部分。您上传的图片、文字等内容，应保证拥有合法权利；您授予我们在提供服务所必需范围内使用的权利。</p>
+
+    <h2 data-i18n="chap6">六、隐私保护</h2>
+    <p data-i18n="chap6_text">我们重视您的个人信息保护。关于信息收集、使用、存储和保护的具体规则，请详见隐私政策。</p>
+
+    <h2 data-i18n="chap7">七、免责声明与责任限制</h2>
+    <p data-i18n="chap7_text">因网络故障、设备故障、第三方服务中断、不可抗力等导致的服务中断或数据丢失，我们在法律允许范围内不承担责任。您因依赖 AI 回复、识别结果等造成的生产损失，我们不承担赔偿责任。本应用按「现状」和「可用」基础提供服务，不对服务的持续性、准确性、适用性作明示或暗示保证。在法律允许的最大范围内，我们对因使用本应用产生的间接、附带、特殊或惩罚性损害不承担责任。</p>
+
+    <h2 data-i18n="chap8">八、协议变更</h2>
+    <p data-i18n="chap8_text">我们有权根据法律法规变化或业务需要修订本协议。修订后将通过应用内公告等方式通知您。若您继续使用本应用，视为接受修订后的协议；若不同意，请停止使用并注销账号。</p>
+
+    <h2 data-i18n="chap9">九、法律适用与争议解决</h2>
+    <p data-i18n="chap9_text">本协议适用中华人民共和国法律（不含冲突法规则）。因本协议产生的争议，双方应友好协商；协商不成的，任何一方可向有管辖权的人民法院提起诉讼。</p>
+
+    <h2 data-i18n="chap10">十、联系我们</h2>
+    <p data-i18n="chap10_text">如您对本协议有任何疑问、意见或投诉，请通过邮件联系。处理时限： 3 个工作日内受理，15 个工作日内回复（法律法规另有规定的除外）。</p>
+    <p data-i18n="finalTip">再次提示：勾选「我已阅读并同意用户协议与隐私政策」并完成注册，即表示您已充分理解并同意本协议及《隐私政策》的全部内容。</p>
+</div>
+
+<script>
+const locales = {
+    zh:{
+        headerTitle:"用户服务协议",
+        backText:"← 返回",
+        title:"Imarika 用户服务协议",
+        tipContent:"请您在使用本应用前仔细阅读本协议。您勾选协议并完成注册，或实际使用本应用，即表示您已阅读、理解并同意接受本协议全部内容。若您不同意，请停止使用本应用。未满 18 周岁请在监护人陪同下阅读并取得同意后使用。",
+        chap1:"一、导言",
+        chap1Text:"欢迎您使用「Imarika」（以下简称「本应用」或「我们」）。本应用由Imarika农业大模型研发团队提供，面向农户、农技人员及相关从业者，提供 AI 智能问答、病虫害识别、语音交互等农业信息服务。",
+        chap2:"二、服务说明",
+        chap2_1:"2.1 服务内容",
+        chap2_1_text:"本应用主要提供以下服务（具体以实际上线功能为准）：",
+        s1:"智能问答：农业种植、病虫害防治、政策咨询等问答服务",
+        s2:"病虫害识别：上传作物图片，获取识别参考结果",
+        s3:"语音交互：语音输入问题并获取回复（视功能开放情况而定）",
+        s4:"账户与积分：注册、登录、积分记录等配套功能",
+        chap2_2:"2.2 服务性质",
+        chap2_2_text:"本应用提供的种植建议、识别结果、市场与政策信息等，仅供学习参考，不构成专业农技指导、诊断结论或投资建议。具体生产决策请结合当地实际情况，并咨询当地农技部门或专业人员。\nAI 生成内容可能存在不准确、不完整或过时的情况，您应自行判断并承担使用后果。",
+        chap2_3:"2.3 服务变更",
+        chap2_3_text:"我们有权根据业务发展、技术升级、法律法规要求等，对服务内容、功能模块进行调整、暂停或终止，并通过应用内公告、弹窗等方式尽可能提前告知。",
+        chap3:"三、账号注册与使用",
+        chap3_1:"3.1 注册资格",
+        chap3_1_text:"您应具备完全民事行为能力。注册时应提供真实、准确、完整的信息（如用户名、手机号等），并及时更新。",
+        chap3_2:"3.2 账号安全",
+        chap3_2_text:"您应妥善保管账号及密码，对账号下的全部行为负责。如发现账号被盗用或存在异常，请立即联系我们。禁止出租、出借、转让或售卖账号。",
+        chap3_3:"3.3 账号注销",
+        chap3_3_text:"您可通过应用内功能或联系客服申请注销账号。注销后，我们将停止提供服务，并在法律法规允许范围内删除或匿名化处理您的个人信息。",
+        chap4:"四、用户行为规范",
+        chap4_pre:"使用本应用时，您不得从事以下行为：",
+        u1:"发布、传播违法、暴力、色情、虚假、侵权或违背公序良俗的内容",
+        u2:"利用本应用从事诈骗、传销、赌博等违法犯罪活动",
+        u3:"干扰、破坏本应用正常运行，如恶意刷接口、攻击服务器、逆向破解",
+        u4:"未经授权爬取、复制、传播本应用的数据或内容",
+        u5:"冒用他人身份注册或使用本应用",
+        u6:"其他违反法律法规或本协议的行为",
+        chap4_end:"若您违反上述规定，我们有权采取警告、限制功能、暂停或终止服务等措施，并依法向主管部门报告。",
+        chap5:"五、知识产权",
+        chap5_text:"本应用相关的软件、界面设计、商标、Logo 及文档的知识产权，归我们或相关权利人所有。未经书面许可，您不得复制、修改、传播、出售本应用的任何部分。您上传的图片、文字等内容，应保证拥有合法权利；您授予我们在提供服务所必需范围内使用的权利。",
+        chap6:"六、隐私保护",
+        chap6_text:"我们重视您的个人信息保护。关于信息收集、使用、存储和保护的具体规则，请详见隐私政策。",
+        chap7:"七、免责声明与责任限制",
+        chap7_text:"因网络故障、设备故障、第三方服务中断、不可抗力等导致的服务中断或数据丢失，我们在法律允许范围内不承担责任。您因依赖 AI 回复、识别结果等造成的生产损失，我们不承担赔偿责任。本应用按「现状」和「可用」基础提供服务，不对服务的持续性、准确性、适用性作明示或暗示保证。在法律允许的最大范围内，我们对因使用本应用产生的间接、附带、特殊或惩罚性损害不承担责任。",
+        chap8:"八、协议变更",
+        chap8_text:"我们有权根据法律法规变化或业务需要修订本协议。修订后将通过应用内公告等方式通知您。若您继续使用本应用，视为接受修订后的协议；若不同意，请停止使用并注销账号。",
+        chap9:"九、法律适用与争议解决",
+        chap9_text:"本协议适用中华人民共和国法律（不含冲突法规则）。因本协议产生的争议，双方应友好协商；协商不成的，任何一方可向有管辖权的人民法院提起诉讼。",
+        chap10:"十、联系我们",
+        chap10_text:"如您对本协议有任何疑问、意见或投诉，请通过邮件联系。处理时限： 3 个工作日内受理，15 个工作日内回复（法律法规另有规定的除外）。",
+        finalTip:"再次提示：勾选「我已阅读并同意用户协议与隐私政策」并完成注册，即表示您已充分理解并同意本协议及《隐私政策》的全部内容。"
+    },
+    en:{
+        headerTitle:"User Service Agreement",
+        backText:"← Back",
+        title:"Imarika User Service Agreement",
+        tipContent:"Please read this agreement carefully before using this application. By checking the agreement and completing registration or using the application, you acknowledge that you have read, understood and agree to all terms of this agreement. If you disagree, please stop using this service. Users under 18 shall read with guardian's consent.",
+        chap1:"1. Introduction",
+        chap1Text:"Welcome to Imarika. Provided by Imarika Agricultural LLM team, this app serves farmers, agricultural technicians and practitioners, offering AI Q&A, crop disease identification, voice interaction and other agricultural information services.",
+        chap2:"2. Service Description",
+        chap2_1:"2.1 Service Content",
+        chap2_1_text:"We provide the following services (subject to actual online functions):",
+        s1:"AI Q&A: agricultural planting, pest control, policy consultation",
+        s2:"Pest identification: upload crop images for reference results",
+        s3:"Voice interaction: voice‑input questions (subject to availability)",
+        s4:"Account & points: register, login and points record",
+        chap2_2:"2.2 Service Nature",
+        chap2_2_text:"Planting advice, identification outputs and market information are for reference only and do not constitute professional agronomic guidance. Please consult local agricultural departments for production decisions. AI outputs may be inaccurate or incomplete; users shall bear consequences of usage.",
+        chap2_3:"2.3 Service Modification",
+        chap2_3_text:"We may adjust, suspend or terminate services due to business upgrade or legal requirements, and will notify users via in‑app announcements when possible.",
+        chap3:"3. Account Registration & Usage",
+        chap3_1:"3.1 Eligibility",
+        chap3_1_text:"You must have full civil capacity. Please provide true, accurate and complete registration information.",
+        chap3_2:"3.2 Account Security",
+        chap3_2_text:"Keep your account and password safe; you are responsible for all activities under your account. Report abnormal account usage immediately. Do not rent, lend, transfer or sell accounts.",
+        chap3_3:"3.3 Account Cancellation",
+        chap3_3_text:"You may apply for account cancellation. After cancellation we will stop service and delete or anonymize your personal data within legal scope.",
+        chap4:"4. User Code of Conduct",
+        chap4_pre:"You are prohibited from the following behaviors:",
+        u1:"Publish illegal, violent, pornographic, false or infringing content",
+        u2:"Use the app for fraud, pyramid scheme, gambling and other crimes",
+        u3:"Interrupt server operation, brute‑force attack or reverse‑engineer the system",
+        u4:"Scrape, copy or redistribute application data without authorization",
+        u5:"Register or use account under other people’s identity",
+        u6:"Other behaviors violating laws or this agreement",
+        chap4_end:"Violation may result in warning, function restriction, suspension or termination of service, and report to competent authorities.",
+        chap5:"5. Intellectual Property",
+        chap5_text:"Software, UI, trademark, logo and documents are protected by intellectual property rights. No copying, modification or redistribution without written permission. You grant us necessary usage rights for texts and images you upload to deliver services.",
+        chap6:"6. Privacy Protection",
+        chap6_text:"We protect your personal information. Please refer to Privacy Policy for collection, storage and processing rules.",
+        chap7:"7. Disclaimer & Limitation of Liability",
+        chap7_text:"We shall not be liable for service interruption or data loss caused by network failure, device fault, third‑party outage or force majeure. We are not liable for production losses caused by reliance on AI replies. Services are provided “as‑is”. We disclaim implied warranties to the fullest extent permitted by law.",
+        chap8:"8. Agreement Revision",
+        chap8_text:"We may revise this agreement. Revisions will be announced inside application. Continued use means acceptance of updated terms. Stop usage and cancel account if you disagree.",
+        chap9:"9. Governing Law & Dispute Resolution",
+        chap9_text:"This agreement shall be governed by laws of People’s Republic of China. Disputes shall be settled by negotiation; if failed, sue at competent local people’s court.",
+        chap10:"10. Contact Us",
+        chap10_text:"For questions or complaints please contact us via email. We accept requests within 3 working days and reply within 15 working days unless otherwise required by law.",
+        finalTip:"By checking “I have read and agree to User Agreement and Privacy Policy” and completing registration, you fully accept all terms of both documents."
+    },
+    sw:{
+        headerTitle:"Mkataba wa Huduma za Mtumiaji",
+        backText:"← Rudi",
+        title:"Mkataba wa Huduma za Mtumiaji wa Imarika",
+        tipContent:"Soma mkataba huu kwa makini kabla ya kutumia programu. Kukubali na kusajili akaunti inaonyesha umesoma na unakubali masharti yote. Usitumie programu ikiwa haukubali. Watoto chini ya miaka 18 wanapaswa kusoma kwa ushauri wa mlezi.",
+        chap1:"1. Utangulizi",
+        chap1Text:"Karibu Imarika. Programu hii imetengenezwa na timu ya mfano mkubwa wa kilimo wa Imarika, inawasaidia wakulima na wataalamu wa kilimo kwa maswali ya akili bandia, utambuzi wa magonjwa ya mimea na mazungumzo ya sauti.",
+        chap2:"2. Maelezo ya Huduma",
+        chap2_1:"2.1 Huduma Zinazotolewa",
+        chap2_1_text:"Tunatoa huduma zifuatazo (kulingana na utekelezaji halisi):",
+        s1:"Majibu ya maswala: kilimo, udhibiti wa wadudu, maswala ya sera",
+        s2:"Utambuzi wa magonjwa: pakia picha za mimea kwa matokeo ya kurejelea",
+        s3:"Mazungumzo ya sauti: uliza maswala kwa sauti (kulingana na uwezo)",
+        s4:"Akaunti na alama: usajili, kuingia na rekodi za alama",
+        chap2_2:"2.2 Aina ya Huduma",
+        chap2_2_text:"Ushauri wa kilimo na matokeo ya utambuzi ni kwa marejeleo tu, hauwezi kuchukua nafasi ya mtaalamu wa kilimo. AI inaweza kutoa majibu yasiyo sahihi, mtumiaji anajibika kwa matokeo ya matumizi.",
+        chap2_3:"2.3 Mabadiliko ya Huduma",
+        chap2_3_text:"Tunaweza kurekebisha, kusimamisha au kukomesha huduma kwa sababu za maendeleo au sheria, na tunawajulisha watumiaji kwa arifa ndani ya programu.",
+        chap3:"3. Usajili na Matumizi ya Akaunti",
+        chap3_1:"3.1 Sifa za Usajili",
+        chap3_1_text:"Unapaswa kuwa na uwezo kamili wa kikatiba. Toa taarifa za kweli na kamili wakati wa kusajili akaunti.",
+        chap3_2:"3.2 Usalama wa Akaunti",
+        chap3_2_text:"Hifadhi nenosiri lako kwa usalama, unajibika kwa vitendo vyote chini ya akaunti yako. Usikopeshe au uuze akaunti yako.",
+        chap3_3:"3.3 Kufuta Akaunti",
+        chap3_3_text:"Unaweza kuomba kufuta akaunti. Baada ya kufuta tunaacha kutoa huduma na kufuta au kuficha taarifa zako binafsi kwa mujibu wa sheria.",
+        chap4:"4. Kanuni za Tabia za Mtumiaji",
+        chap4_pre:"Hauruhusiwi kufanya mambo yafuatayo:",
+        u1:"Kuchapisha maudhui haramu, vurugu, uongo au yanayokiuka haki za wengine",
+        u2:"Kutumia programu kwa udanganyifu, biashara ya kinyume cha sheria na uhalifu mwingine",
+        u3:"Kuvuruga utendaji wa seva, mashambulizi ya kompyuta au kuchambua programu",
+        u4:"Kukusanya data ya programu bila idhini",
+        u5:"Kusajili akaunti kwa jina la mtu mwingine",
+        u6:"Vitendo vingine vinavyokiuka sheria au mkataba huu",
+        chap4_end:"Ukiuka kanuni hizi tunaweza kutoa onyo, kuzuia baadhi ya kazi au kusimamisha akaunti yako.",
+        chap5:"5. Haki za Ubunifu",
+        chap5_text:"Programu, muundo wa ukurasa, alama na hati zinalindwa na haki za ubunifu. Hairuhusiwi kunakili au kurekebisha bila idhini ya maandishi. Unatupa haki ya kutumia maandishi na picha unazopakua ili kutoa huduma.",
+        chap6:"6. Kulinda Faragha",
+        chap6_text:"Tunalinda taarifa zako binafsi. Soma Sera ya Faragha kwa maelezo ya ukusanyaji na uhifadhi wa data.",
+        chap7:"7. Kanusho la Dhima na Mipaka ya Dhima",
+        chap7_text:"Hatutawajibika kwa kukatika kwa huduma au kupotea kwa data kwa sababu ya mtandao, vifaa au nguvu kubwa ya asili. Hatutawajibika kwa hasara za kilimo zinazotokea kwa kutegemea majibu ya AI. Huduma zinatolewa “kama zilivyo”.",
+        chap8:"8. Marekebisho ya Mkataba",
+        chap8_text:"Tunaweza kurekebisha mkataba huu. Mabadiliko yatatangazwa ndani ya programu. Kuendelea kutumia programu kunamaanisha unakubali mabadiliko. Acha kutumia na ufute akaunti ikiwa haukubali.",
+        chap9:"9. Sheria Inayotumika na Utatuzi wa Migogoro",
+        chap9_text:"Mkataba huu unasimamiwa na sheria za Jamhuri ya Watu wa China. Migogoro itatatuliwa kwa mazungumzo, ikiwa haitafanikiwa kesi itafunguliwa katika mahakama yenye mamlaka.",
+        chap10:"10. Wasiliana Nasi",
+        chap10_text:"Kwa maswala na malalamiko tuma barua pepe. Tunapokea ombi ndani ya siku 3 za kazi na kujibu ndani ya siku 15 za kazi kwa mujibu wa sheria.",
+        finalTip:"Kukubali “Nimesoma na ninakubali Mkataba wa Huduma na Sera ya Faragha” na kusajili akaunti unaonyesha unakubali masharti yote ya hati zote mbili."
+    }
+};
+
+let currentLang = localStorage.getItem("agri_lang") || "zh";
+
+function render(){
+    document.querySelectorAll("[data-i18n]").forEach(el=>{
+        const key = el.getAttribute("data-i18n");
+        if(locales[currentLang][key]){
+            el.innerHTML = locales[currentLang][key];
+        }
+    });
+    document.querySelectorAll(".lang-btn").forEach(btn=>btn.classList.remove("active"));
+    if(currentLang === "zh") document.querySelector('.lang-btn:nth-child(1)').classList.add("active");
+    if(currentLang === "en") document.querySelector('.lang-btn:nth-child(2)').classList.add("active");
+    if(currentLang === "sw") document.querySelector('.lang-btn:nth-child(3)').classList.add("active");
+}
+
+function setLang(lang){
+    currentLang = lang;
+    localStorage.setItem("agri_lang", lang);
+    render();
+}
+
+function goBack(){
+    window.location.href = "login.html";
+}
+
+window.onload = function(){
+    render();
+}
+</script>
+</body>
+</html>

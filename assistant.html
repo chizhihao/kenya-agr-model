@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="chatTitle">Imarika 农业助手</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+        }
+        body {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: #f7fbf9;
+        }
+        /* 顶部导航栏 */
+        .header-bar {
+            height: 60px;
+            background: #2b9b62;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+        .header-title {
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .header-right {
+            display: flex;
+            gap:12px;
+            align-items:center;
+        }
+        .lang-btn{
+            padding:3px 8px;
+            border-radius:5px;
+            border:1px solid #72c99e;
+            background:#37b072;
+            color:white;
+            cursor:pointer;
+        }
+        .lang-btn.active{
+            background:#ffffff;
+            color:#2b9b62;
+        }
+        .clear-btn{
+            padding:6px 10px;
+            background:#ffffff33;
+            border:1px solid #ffffff77;
+            border-radius:8px;
+            color:white;
+            cursor:pointer;
+            font-size:13px;
+        }
+        .logout-btn{
+            padding:6px 12px;
+            background:#ffffff33;
+            border:1px solid #ffffff77;
+            border-radius:8px;
+            color:white;
+            cursor:pointer;
+        }
+        .home-btn{
+            padding:6px 10px;
+            background:#ffffff33;
+            border:1px solid #ffffff77;
+            border-radius:8px;
+            color:white;
+            cursor:pointer;
+            font-size:13px;
+        }
+        /* 聊天消息容器 */
+        .chat-wrap {
+            flex: 1;
+            overflow-y: auto;
+            padding:20px;
+        }
+        .msg-item{
+            margin-bottom:16px;
+            max-width:70%;
+        }
+        .msg-user{
+            margin-left:auto;
+        }
+        .msg-bubble{
+            padding:12px 16px;
+            border-radius:14px;
+            line-height:1.55;
+            font-size:15px;
+        }
+        .msg-user .msg-bubble{
+            background:#4fc48c;
+            color:white;
+            border-bottom-right-radius:4px;
+        }
+        .msg-ai .msg-bubble{
+            background:#ffffff;
+            color:#222;
+            box-shadow:0 1px 4px rgba(0,0,0,0.07);
+            border-bottom-left-radius:4px;
+        }
+        .loading-text{
+            color:#888;
+            font-size:14px;
+        }
+        .tts‑play‑btn{
+            border:none;
+            background:#eee;
+            border-radius:6px;
+            padding:4px 6px;
+            cursor:pointer;
+            margin-top:4px;
+        }
+        /*底部输入区域*/
+        .input-area{
+            padding:14px 20px;
+            background:#fff;
+            border-top:1px solid #e5ece9;
+            display:flex;
+            gap:10px;
+            align-items:center;
+        }
+        #chatInput{
+            flex:1;
+            border:1px solid #dde8e2;
+            border-radius:12px;
+            padding:12px 16px;
+            font-size:15px;
+        }
+        #chatInput:focus{
+            outline:none;
+            border-color:#34c773;
+        }
+        #micBtn{
+            width:44px;
+            height:44px;
+            border-radius:50%;
+            border:none;
+            background:#2b9b62;
+            color:#ffffff;
+            cursor:pointer;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            transition:0.2s;
+        }
+        #micBtn.recording{
+            background:#d93025;
+            animation:pulse 1s infinite;
+        }
+        @keyframes pulse{
+            0%{transform:scale(1);}
+            50%{transform:scale(1.08);}
+            100%{transform:scale(1);}
+        }
+        #sendBtn{
+            width:90px;
+            border:none;
+            border-radius:12px;
+            background:#2b9b62;
+            color:white;
+            cursor:pointer;
+            font-weight:500;
+        }
+        #sendBtn:disabled{
+            background:#88c9a7;
+            cursor:not-allowed;
+        }
+    </style>
+</head>
+<body>
+<div class="header-bar">
+    <div class="header-title" data-i18n="appChatName" onclick="goHome()">🌾 Imarika 肯尼亚农业助手</div>
+    <div class="header-right">
+        <button class="lang-btn" onclick="setLang('zh')">中文</button>
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" onclick="setLang('sw')">SW</button>
+        <button class="home-btn" onclick="goHome()" data-i18n="goHome">返回首页</button>
+        <button class="clear-btn" onclick="clearConversation()" data-i18n="clearChat">清空对话</button>
+        <button class="logout-btn" onclick="logout()" data-i18n="logout">退出登录</button>
+    </div>
+</div>
+
+<div class="chat-wrap" id="chatBox">
+    <div class="msg-item msg-ai">
+        <div style="display:flex;gap:6px;align-items:flex-start;">
+            <div class="msg-bubble" style="flex:1;" data-i18n="greeting">你好！我是Imarika农业助手，可以解答农作物、病虫害、种植技术相关问题。</div>
+            <button class="tts‑play‑btn" title="朗读回答">🔊</button>
+        </div>
+    </div>
+</div>
+
+<div class="input-area">
+    <input id="chatInput" placeholder="" data-placeholder-i18n="inputPlaceholder">
+    <button id="micBtn" title="语音输入">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2a3 3 0 00-3 3v7a3 3 0 006 0V5a3 3 0 00-3-3zm-7 9a7 7 0 0014 0h2a9 9 0 01-8 8.94V22h-2v-2.06A9 9 0 013 11h2z"/>
+        </svg>
+    </button>
+    <button id="sendBtn" onclick="sendMessage()" data-i18n="send">发送</button>
+</div>
+
+<script>
+//多语言词库，和登录页一一对应
+const locales = {
+    zh:{
+        chatTitle:"Imarika 农业助手",
+        appChatName:"🌾 Imarika 肯尼亚农业助手",
+        greeting:"你好！我是Imarika农业助手，可以解答农作物、病虫害、种植技术相关问题。",
+        inputPlaceholder:"请输入你的农业问题...",
+        send:"发送",
+        logout:"退出登录",
+        thinking:"正在思考...",
+        clearChat:"清空对话",
+        goHome:"返回首页"
+    },
+    en:{
+        chatTitle:"Imarika Agriculture Assistant",
+        appChatName:"🌾 Imarika Kenya Agriculture Assistant",
+        greeting:"Hello! I'm Imarika agriculture assistant, I can answer questions about crops, pests and planting techniques.",
+        inputPlaceholder:"Type your agriculture question...",
+        send:"Send",
+        logout:"Logout",
+        thinking:"Thinking...",
+        clearChat:"Clear Chat",
+        goHome:"Home"
+    },
+    sw:{
+        chatTitle:"Imarika Msaidizi wa Kilimo",
+        appChatName:"🌾 Imarika Msaidizi wa Kilimo Kenya",
+        greeting:"Habari! Mimi ni msaidizi wa kilimo wa Imarika, naweza kujibu maswala ya mazao, wadudu na mbinu za kilimo.",
+        inputPlaceholder:"Andika swala lako la kilimo...",
+        send:"Tuma",
+        logout:"Toka",
+        thinking:"Nafikiria...",
+        clearChat:"Futa Mazungumzo",
+        goHome:"Nyumbani"
+    }
+};
+
+let currentLang = "en";
+let sessionId = "";
+let audioPlayer = null; //全局音频播放器
+const API_BASE = "http://127.0.0.1:8000/api";
+
+// TTS朗读函数【调试版本，后端临时关闭鉴权】
+async function speakText(text, langCode) {
+    // 如果正在播放，则停止
+    if (audioPlayer) {
+        audioPlayer.pause();
+        audioPlayer = null;
+        return;
+    }
+    try {
+        const params = new URLSearchParams();
+        params.append("text", text);
+        params.append("lang", langCode);
+        const url = `${API_BASE}/tts?${params.toString()}`;
+        audioPlayer = new Audio();
+        audioPlayer.src = url;
+        audioPlayer.onended = () => {
+            audioPlayer = null;
+        };
+        audioPlayer.onerror = (err) => {
+            console.error("TTS播放失败", err);
+            alert("语音合成失败，请稍后重试");
+            audioPlayer = null;
+        };
+        await audioPlayer.play();
+    } catch (err) {
+        console.error(err);
+        alert("播放语音出错");
+    }
+}
+
+// -------- 语音录音相关 --------
+let mediaRecorder = null;
+let audioChunks = [];
+const micBtn = document.getElementById("micBtn");
+const chatInput = document.getElementById("chatInput");
+
+micBtn.addEventListener("click", async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+        alert("请先登录");
+        return;
+    }
+    if (!mediaRecorder || mediaRecorder.state !== "recording") {
+        //开始录音
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorder = new MediaRecorder(stream, { mimeType: "audio/webm" });
+            audioChunks = [];
+            mediaRecorder.ondataavailable = e => {
+                audioChunks.push(e.data);
+            };
+            mediaRecorder.start();
+            micBtn.classList.add("recording");
+        } catch (err) {
+            alert("获取麦克风失败，请开启麦克风权限");
+            console.error(err);
+        }
+    } else {
+        //停止录音，上传
+        mediaRecorder.stop();
+        micBtn.classList.remove("recording");
+
+        mediaRecorder.onstop = async () => {
+            const blob = new Blob(audioChunks, { type: "audio/webm" });
+            const formData = new FormData();
+            formData.append("file", blob);
+            try {
+                const res = await fetch(`${API_BASE}/asr/swahili`, {
+                    method: "POST",
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    },
+                    body: formData
+                });
+                const data = await res.json();
+                if (data.text) {
+                    chatInput.value = data.text;
+                }
+            } catch (err) {
+                alert("语音识别失败");
+                console.error(err);
+            }
+        }
+    }
+})
+
+// 返回首页函数
+function goHome(){
+    window.location.href="./index.html";
+}
+
+// 监听localStorage，多标签页语言同步，同时监听lang与agri_lang两个key
+window.addEventListener('storage', function(e) {
+    if(e.key === 'agri_lang' || e.key === 'lang'){
+        currentLang = e.newValue;
+        renderI18n();
+    }
+});
+
+//生成随机session_id
+function generateSessionId(){
+    return 'session_' + Math.random().toString(36).slice(2);
+}
+
+//初始化sessionId
+function initSession(){
+    sessionId = localStorage.getItem("imarika_session_id");
+    if(!sessionId){
+        sessionId = generateSessionId();
+        localStorage.setItem("imarika_session_id", sessionId);
+    }
+}
+
+//登录状态校验
+function checkLogin(){
+    const isLogin = localStorage.getItem("isLogin");
+    const token = localStorage.getItem("token");
+    if(!isLogin || isLogin !== "true" || !token){
+        window.location.href="./login.html";
+    }
+}
+
+//多语言渲染
+function renderI18n(){
+    document.querySelectorAll('[data-i18n]').forEach(el=>{
+        const k = el.getAttribute("data-i18n");
+        el.innerText = locales[currentLang][k];
+    })
+    document.querySelectorAll('[data-placeholder-i18n]').forEach(el=>{
+        const k = el.getAttribute("data-placeholder-i18n");
+        el.placeholder = locales[currentLang][k];
+    })
+    document.documentElement.lang = currentLang;
+    document.querySelectorAll(".lang-btn").forEach(btn=>btn.classList.remove("active"));
+    document.querySelectorAll(".lang-btn").forEach(btn=>{
+        if( (currentLang==="zh" && btn.textContent==="中文") || btn.textContent===currentLang.toUpperCase()){
+            btn.classList.add("active");
+        }
+    })
+    //绑定欢迎消息的朗读按钮
+    const welcomeTtsBtn = document.querySelector("#chatBox .tts‑play‑btn");
+    const welcomeBubble = document.querySelector("#chatBox .msg-bubble");
+    if(welcomeTtsBtn && welcomeBubble){
+        welcomeTtsBtn.onclick = ()=> speakText(welcomeBubble.innerText, currentLang);
+    }
+}
+
+function setLang(lang){
+    currentLang = lang;
+    localStorage.setItem("agri_lang", lang);
+    localStorage.setItem("lang", lang);
+    renderI18n();
+}
+
+//清空对话：后端清除会话 + 前端清空聊天框，生成全新session
+async function clearConversation(){
+    //清空正在播放的音频
+    if(audioPlayer){
+        audioPlayer.pause();
+        audioPlayer=null;
+    }
+    const token = localStorage.getItem("token");
+    if(token){
+        await fetch(`${API_BASE}/clear-session`,{
+            method:"POST",
+            headers:{
+                "Content‑Type":"application/json",
+                "Authorization":"Bearer "+ token
+            },
+            body: JSON.stringify({session_id: sessionId})
+        })
+    }
+    //生成新会话ID
+    sessionId = generateSessionId();
+    localStorage.setItem("imarika_session_id", sessionId);
+    //清空前端聊天，恢复欢迎语
+    const chatBox = document.getElementById("chatBox");
+    chatBox.innerHTML = `<div class="msg-item msg-ai">
+        <div style="display:flex;gap:6px;align-items:flex-start;">
+            <div class="msg-bubble" style="flex:1;" data-i18n="greeting"></div>
+            <button class="tts‑play‑btn" title="朗读回答">🔊</button>
+        </div>
+    </div>`;
+    renderI18n();
+}
+
+//退出登录
+function logout(){
+    if(audioPlayer){
+        audioPlayer.pause();
+        audioPlayer=null;
+    }
+    localStorage.removeItem("isLogin");
+    localStorage.removeItem("token");
+    localStorage.removeItem("imarika_session_id");
+    window.location.href="./login.html";
+}
+
+//追加消息到聊天框
+function appendMessage(text, isUser){
+    const chatBox = document.getElementById("chatBox");
+    const div = document.createElement("div");
+    div.className = "msg-item " + (isUser ? "msg-user":"msg-ai");
+    if(isUser){
+        div.innerHTML = `<div class="msg-bubble">${text}</div>`;
+    }else{
+        div.innerHTML = `
+        <div style="display:flex;gap:6px;align-items:flex-start;">
+            <div class="msg-bubble" style="flex:1;">${text}</div>
+            <button class="tts‑play‑btn" title="朗读回答">🔊</button>
+        </div>
+        `;
+        const playBtn = div.querySelector(".tts‑play‑btn");
+        playBtn.onclick = ()=>{
+            speakText(text, currentLang);
+        }
+    }
+    chatBox.appendChild(div);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+//SSE流式发送消息
+async function sendMessage(){
+    const input = document.getElementById("chatInput");
+    const sendBtn = document.getElementById("sendBtn");
+    const question = input.value.trim();
+    if(!question) return;
+
+    appendMessage(question, true);
+    input.value = "";
+    sendBtn.disabled = true;
+
+    const chatBox = document.getElementById("chatBox");
+    // 创建一个空AI气泡，后续不断往里追加文字
+    const aiMsgDiv = document.createElement("div");
+    aiMsgDiv.className = "msg-item msg-ai";
+    aiMsgDiv.innerHTML = `
+    <div style="display:flex;gap:6px;align-items:flex-start;">
+        <div class="msg-bubble" style="flex:1;"></div>
+        <button class="tts‑play‑btn" title="朗读回答">🔊</button>
+    </div>
+    `;
+    chatBox.appendChild(aiMsgDiv);
+    const bubbleDom = aiMsgDiv.querySelector(".msg-bubble");
+    const ttsBtn = aiMsgDiv.querySelector(".tts‑play‑btn");
+    let fullText = "";
+    let answerText = "";
+    ttsBtn.onclick = ()=>{
+        speakText(answerText, currentLang);
+    };
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    try {
+        const token = localStorage.getItem("token");
+        if(!token){
+            bubbleDom.innerText = "❌ 未登录，请返回登录页";
+            sendBtn.disabled = false;
+            return;
+        }
+        const res = await fetch(`${API_BASE}/chat-stream`,{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization":"Bearer "+ token
+            },
+            body: JSON.stringify({
+                question: question,
+                lang: currentLang,
+                session_id: sessionId
+            })
+        });
+
+        if (!res.ok) {
+            bubbleDom.innerText = "❌ 请求出错:"+ res.status;
+            sendBtn.disabled = false;
+            return;
+        }
+
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder("utf-8");
+        let buffer = "";
+
+        while(true){
+            const {done, value} = await reader.read();
+            if(done) break;
+            buffer += decoder.decode(value, {stream:true});
+            //解析SSE data: xxx\n\n
+            const parts = buffer.split("\n\n");
+            buffer = parts.pop();
+            for(const part of parts){
+                if(part.startsWith("data: ")){
+                    const jsonStr = part.substring(6);
+                    const obj = JSON.parse(jsonStr);
+                    if(obj.error){
+                        bubbleDom.innerText = "❌ "+obj.error;
+                    }else if(obj.content){
+                        fullText += obj.content;
+                        answerText = fullText;
+                        bubbleDom.innerText = fullText;
+                        chatBox.scrollTop = chatBox.scrollHeight;
+                    }
+                }
+            }
+        }
+
+    }catch(err){
+        console.error(err);
+        bubbleDom.innerText = "❌ 网络异常，连接后端失败";
+    }
+    sendBtn.disabled = false;
+}
+
+//回车发送消息
+document.addEventListener('keydown',function(e){
+    if(e.key === 'Enter'){
+        sendMessage();
+    }
+})
+
+window.onload = function(){
+    checkLogin();
+    initSession();
+    //优先读取home页面的lang，兼容双页面
+    const savedLang = localStorage.getItem("lang") || localStorage.getItem("agri_lang");
+    if(savedLang){
+        currentLang = savedLang;
+    }
+    renderI18n();
+}
+</script>
+</body>
+</html>

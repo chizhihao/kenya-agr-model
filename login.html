@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="loginTitle">Imarika 登录</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui,-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+        }
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg,#e6f9ec,#edf7ff);
+        }
+        /* 顶部logo区域 */
+        .logo-wrap{
+            text-align:center;
+            margin-bottom:24px;
+        }
+        .logo-circle{
+            width:72px;
+            height:72px;
+            border-radius:50%;
+            background:linear-gradient(135deg,#34c773,#2b8c58);
+            margin:0 auto 12px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:white;
+            font-size:32px;
+        }
+        .logo-title{
+            font-size:24px;
+            font-weight:600;
+            color:#1f2937;
+        }
+        .logo-sub{
+            margin-top:6px;
+            color:#6b7280;
+        }
+
+
+        /* 登录卡片 */
+        .login-card{
+            width:420px;
+            background:#ffffff;
+            border-radius:20px;
+            padding:36px 32px;
+            box-shadow:0 8px 30px rgba(0,0,0,0.06);
+        }
+        /* tab切换 */
+        .tab-bar{
+            display:flex;
+            margin-bottom:24px;
+            border-bottom:1px solid #e5e7eb;
+        }
+        .tab-item{
+            flex:1;
+            text-align:center;
+            padding-bottom:12px;
+            cursor:pointer;
+            color:#9ca3af;
+            position:relative;
+        }
+        .tab-item.active{
+            color:#2b9b62;
+            font-weight:500;
+        }
+        .tab-item.active::after{
+            content:"";
+            position:absolute;
+            bottom:-1px;
+            left:20%;
+            width:60%;
+            height:2px;
+            background-color:#2b9b62;
+        }
+
+
+        .form-item{
+            margin-bottom:18px;
+        }
+        .form-label{
+            display:block;
+            margin-bottom:8px;
+            font-weight:500;
+            color:#333;
+        }
+        .input-box{
+            width:100%;
+            height:48px;
+            border:1px solid #e5e7eb;
+            border-radius:10px;
+            padding:0 14px;
+            font-size:15px;
+            background:#f9fafb;
+        }
+        .input-box:focus{
+            outline:none;
+            border-color:#34c773;
+        }
+
+
+        .agree-wrap{
+            display:flex;
+            align-items:center;
+            gap:6px;
+            margin-bottom:22px;
+            font-size:13px;
+            color:#555;
+        }
+        .link-text{
+            color:#2b9b62;
+            cursor:pointer;
+            text-decoration: none;
+        }
+        .login-btn{
+            width:100%;
+            height:50px;
+            border-radius:12px;
+            border:none;
+            background-color:#52be90;
+            color:white;
+            font-size:16px;
+            font-weight:600;
+            cursor:pointer;
+        }
+        .login-btn:disabled{
+            background-color:#a8d9c3;
+            cursor:not-allowed;
+        }
+        .register-tip{
+            text-align:center;
+            margin-top:20px;
+            font-size:14px;
+            color:#666;
+        }
+        /* 语言切换按钮组 */
+        .lang-panel{
+            margin-top:20px;
+            text-align:center;
+        }
+        .lang-btn{
+            margin:0 4px;
+            padding:4px 10px;
+            border-radius:6px;
+            border:1px solid #c8e6d7;
+            background:#f0faf5;
+            color:#1a6b42;
+            cursor:pointer;
+        }
+        .lang-btn.active{
+            background-color:#2b9b62;
+            color:white;
+        }
+
+
+
+        /* ==========注册弹窗样式========== */
+        .register-modal{
+            position:fixed;
+            inset:0;
+            background:rgba(0,0,0,0.25);
+            display:none;
+            align-items:center;
+            justify-content:center;
+            z-index:99;
+        }
+        .modal-card{
+            width:350px;
+            background:#ffffff;
+            border-radius:16px;
+            padding:32px;
+            box-shadow:0 8px 30px rgba(0,0,0,0.12);
+        }
+        .modal-header{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:22px;
+        }
+        .modal-header h2{
+            font-size:20px;
+            font-weight:600;
+            color:#1f2937;
+            margin:0;
+        }
+        .close-btn{
+            width:30px;
+            height:30px;
+            border-radius:50%;
+            border:1px solid #e5e7eb;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            cursor:pointer;
+            color:#6b7280;
+        }
+        .reg-form-item{
+            margin-bottom:16px;
+        }
+        .reg-form-item label{
+            display:block;
+            font-size:14px;
+            color:#374151;
+            margin-bottom:6px;
+        }
+        .reg-form-item input{
+            width:100%;
+            border:1px solid #e5e7eb;
+            border-radius:10px;
+            padding:12px 14px;
+            font-size:14px;
+            background:#f9fafb;
+        }
+        .input-wrap{
+            position:relative;
+        }
+        .eye-icon{
+            position:absolute;
+            right:14px;
+            top:50%;
+            transform:translateY(-50%);
+            cursor:pointer;
+            font-size:16px;
+            color:#9ca3af;
+        }
+        .agree-row{
+            display:flex;
+            gap:8px;
+            align-items:flex-start;
+            margin:18px 0 22px;
+            font-size:13px;
+        }
+        .agree-row a{
+            color:#22b970;
+            text-decoration:none;
+        }
+        .btn-register{
+            width:100%;
+            padding:13px;
+            border:none;
+            border-radius:10px;
+            background:linear-gradient(90deg,#48c492,#58d09c);
+            color:white;
+            font-size:15px;
+            font-weight:600;
+            cursor:pointer;
+        }
+        .btn-register:disabled{
+            opacity:0.65;
+            cursor:not-allowed;
+        }
+        .switch-login{
+            text-align:center;
+            margin-top:16px;
+            font-size:13px;
+            color:#6b7280;
+        }
+        .switch-login a{
+            color:#22b970;
+            cursor:pointer;
+            text-decoration:none;
+        }
+    </style>
+</head>
+<body>
+<div class="logo-wrap">
+    <div class="logo-circle">🌾</div>
+    <div class="logo-title" data-i18n="welcomeLogin">欢迎登录</div>
+    <div class="logo-sub" data-i18n="appName">Imarika 肯尼亚农业助手</div>
+</div>
+
+
+<div class="login-card">
+    <div class="tab-bar">
+        <div class="tab-item active" id="tabPwd" onclick="switchTab('password')" data-i18n="tabAccountPwd">账号密码</div>
+        <div class="tab-item" id="tabSms" onclick="switchTab('sms')" data-i18n="tabSmsCode">短信验证码</div>
+    </div>
+
+
+    <!--账号密码表单-->
+    <div id="formPwd">
+        <div class="form-item">
+            <label class="form-label" data-i18n="username">用户名</label>
+            <input class="input-box" data-placeholder-i18n="placeholderUser">
+        </div>
+        <div class="form-item">
+            <label class="form-label" data-i18n="password">密码</label>
+            <input class="input-box" type="password" data-placeholder-i18n="placeholderPwd">
+        </div>
+    </div>
+
+
+    <!--短信表单，默认隐藏-->
+    <div id="formSms" style="display:none;">
+        <div class="form-item">
+            <label class="form-label" data-i18n="phone">手机号</label>
+            <input class="input-box" data-placeholder-i18n="placeholderPhone">
+        </div>
+        <div class="form-item">
+            <label class="form-label" data-i18n="smsCode">验证码</label>
+            <input class="input-box" data-placeholder-i18n="placeholderSms">
+        </div>
+    </div>
+
+
+    <div class="agree-wrap">
+        <input type="checkbox" id="agreeCheck">
+        <span data-i18n="agreeText">我已阅读并同意</span>
+        <a class="link-text" href="user-agreement.html" target="_blank" data-i18n="userAgreement">用户协议</a>
+        <span>&</span>
+        <a class="link-text" href="privacy.html" target="_blank" data-i18n="privacyPolicy">隐私政策</a>
+    </div>
+
+
+    <button class="login-btn" onclick="doLogin()" data-i18n="loginBtn">登录</button>
+
+
+    <div class="register-tip">
+        <span data-i18n="noAccount">还没有账号？</span>
+        <span class="link-text" onclick="openRegister()" data-i18n="registerNow">立即注册</span>
+    </div>
+</div>
+
+
+<div class="lang-panel">
+    <button class="lang-btn" onclick="setLang('zh')">中文</button>
+    <button class="lang-btn active" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('sw')">SW</button>
+</div>
+
+
+
+<!-- ==========注册弹窗HTML========== -->
+<div class="register-modal" id="registerModal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h2 data-i18n="regTitle">创建账号</h2>
+      <span class="close-btn" onclick="closeRegister()">×</span>
+    </div>
+
+
+    <div class="reg-form-item">
+      <label data-i18n="regUname">用户名</label>
+      <input type="text" data-i18n-placeholder="regUnamePh" />
+    </div>
+
+
+    <div class="reg-form-item">
+      <label data-i18n="regPhone">手机号码</label>
+      <input type="tel" data-i18n-placeholder="regPhonePh" />
+    </div>
+
+
+    <div class="reg-form-item">
+      <label data-i18n="regPwd">设置密码</label>
+      <div class="input-wrap">
+        <input type="password" maxlength="72" data-i18n-placeholder="regPwdPh" />
+        <span class="eye-icon">👁</span>
+      </div>
+    </div>
+
+
+    <div class="reg-form-item">
+      <label data-i18n="regPwd2">确认密码</label>
+      <div class="input-wrap">
+        <input type="password" maxlength="72" data-i18n-placeholder="regPwd2Ph" />
+        <span class="eye-icon">👁</span>
+      </div>
+    </div>
+
+
+    <div class="agree-row">
+      <input type="checkbox" id="regAgreeCheck" />
+      <div>
+        <span data-i18n="regAgree">我已阅读并同意</span>
+        <a href="user-agreement.html" target="_blank" class="link-text" data-i18n="txtUserAgree">用户协议</a>
+        <span data-i18n="txtAnd">与</span>
+        <a href="privacy.html" target="_blank" class="link-text" data-i18n="txtPrivacy">隐私政策</a>
+      </div>
+    </div>
+
+
+    <button class="btn-register" data-i18n="regSubmit">完成注册</button>
+
+
+    <div class="switch-login">
+      <span data-i18n="regHasAcc">已有账号？</span>
+      <a onclick="closeRegister()" data-i18n="regGoLogin">立即登录</a>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+//多语言词库 中文｜英文｜斯瓦希里语
+const locales = {
+    zh:{
+        loginTitle:"Imarika 登录",
+        welcomeLogin:"欢迎登录",
+        appName:"Imarika 肯尼亚农业助手",
+        tabAccountPwd:"账号密码",
+        tabSmsCode:"短信验证码",
+        username:"用户名",
+        password:"密码",
+        phone:"手机号",
+        smsCode:"验证码",
+        placeholderUser:"请输入注册时的用户名",
+        placeholderPwd:"请输入密码",
+        placeholderPhone:"请输入手机号码",
+        placeholderSms:"请输入短信验证码",
+        agreeText:"我已阅读并同意",
+        userAgreement:"用户协议",
+        privacyPolicy:"隐私政策",
+        loginBtn:"登录",
+        noAccount:"还没有账号？",
+        registerNow:"立即注册",
+
+
+        //注册弹窗文本
+        regTitle:"创建账号",
+        regUname:"用户名",
+        regUnamePh:"请输入用户名（无需邮箱）",
+        regPhone:"手机号码",
+        regPhonePh:"请输入手机号码",
+        regPwd:"设置密码",
+        regPwdPh:"请设置密码（8位以上）",
+        regPwd2:"确认密码",
+        regPwd2Ph:"再次输入密码",
+        regAgree:"我已阅读并同意",
+        txtUserAgree:"用户协议",
+        txtAnd:"与",
+        txtPrivacy:"隐私政策",
+        regSubmit:"完成注册",
+        regHasAcc:"已有账号？",
+        regGoLogin:"立即登录",
+
+
+        tipNeedAgree:"请勾选用户协议与隐私政策",
+        tipUserEmpty:"用户名不能为空",
+        tipPhoneEmpty:"手机号不能为空",
+        tipPwdEmpty:"密码不能为空",
+        tipPwdNotSame:"两次输入的密码不一致",
+        tipPwdMin:"密码至少8位字符",
+        tipRegisterOk:"注册成功，请登录",
+        tipRegisterFail:"注册失败",
+        tipLoginOk:"登录成功，正在跳转",
+        tipLoginFail:"用户名或密码错误"
+    },
+    en:{
+        loginTitle:"Imarika Login",
+        welcomeLogin:"Welcome",
+        appName:"Imarika Kenya Agriculture Assistant",
+        tabAccountPwd:"Password Login",
+        tabSmsCode:"SMS Code",
+        username:"Username",
+        password:"Password",
+        phone:"Phone Number",
+        smsCode:"Verify Code",
+        placeholderUser:"Please input your username",
+        placeholderPwd:"Please input password",
+        placeholderPhone:"Enter phone number",
+        placeholderSms:"Enter sms verify code",
+        agreeText:"I have read and agree to",
+        userAgreement:"User Agreement",
+        privacyPolicy:"Privacy Policy",
+        loginBtn:"Sign In",
+        noAccount:"No account?",
+        registerNow:"Register now",
+
+
+        regTitle:"Create Account",
+        regUname:"Username",
+        regUnamePh:"Enter username(no email)",
+        regPhone:"Phone Number",
+        regPhonePh:"Enter your phone number",
+        regPwd:"Set Password",
+        regPwdPh:"Set password(min 8 chars)",
+        regPwd2:"Confirm Password",
+        regPwd2Ph:"Re‑enter password",
+        regAgree:"I have read and agree to",
+        txtUserAgree:"User Agreement",
+        txtAnd:"and",
+        txtPrivacy:"Privacy Policy",
+        regSubmit:"Complete Register",
+        regHasAcc:"Already have account?",
+        regGoLogin:"Sign in",
+
+
+        tipNeedAgree:"Please agree user & privacy policy",
+        tipUserEmpty:"Username cannot be empty",
+        tipPhoneEmpty:"Phone number cannot be empty",
+        tipPwdEmpty:"Password cannot be empty",
+        tipPwdNotSame:"Passwords do not match",
+        tipPwdMin:"Password min 8 characters",
+        tipRegisterOk:"Register success, please login",
+        tipRegisterFail:"Register failed",
+        tipLoginOk:"Login success, redirecting",
+        tipLoginFail:"Wrong username or password"
+    },
+    sw:{
+        loginTitle:"Imarika Ingia",
+        welcomeLogin:"Karibu",
+        appName:"Imarika Msaidizi wa Kilimo Kenya",
+        tabAccountPwd:"Jina na Nenosiri",
+        tabSmsCode:"Nambari ya SMS",
+        username:"Jina la mtumiaji",
+        password:"Nenosiri",
+        phone:"Nambari ya simu",
+        smsCode:"Nambari ya uthibitisho",
+        placeholderUser:"Andika jina lako la mtumiaji",
+        placeholderPwd:"Andika nenosiri lako",
+        placeholderPhone:"Andika nambari ya simu",
+        placeholderSms:"Andika nambari ya uthibitisho",
+        agreeText:"Nimesoma na ninakubali",
+        userAgreement:"Mkataba wa mtumiaji",
+        privacyPolicy:"Sera ya faragha",
+        loginBtn:"Ingia",
+        noAccount:"Huna akaunti?",
+        registerNow:"Jisajili sasa",
+
+
+        regTitle:"Unda Akaunti",
+        regUname:"Jina la mtumiaji",
+        regUnamePh:"Andika jina la mtumiaji (bila barua pepe)",
+        regPhone:"Nambari ya simu",
+        regPhonePh:"Andika nambari ya simu",
+        regPwd:"Weka nenosiri",
+        regPwdPh:"Weka nenosiri (angalau herufi 8)",
+        regPwd2:"Thibitisha nenosiri",
+        regPwd2Ph:"Andika tena nenosiri",
+        regAgree:"Nimesoma na ninakubali",
+        txtUserAgree:"Mkataba wa huduma",
+        txtAnd:"na",
+        txtPrivacy:"Sera ya faragha",
+        regSubmit:"Maliza Usajili",
+        regHasAcc:"Una akaunti tayari?",
+        regGoLogin:"Ingia",
+
+
+        tipNeedAgree:"Tafadhali kubali mkataba na sera",
+        tipUserEmpty:"Jina la mtumiaji lazima liwekwe",
+        tipPhoneEmpty:"Nambari ya simu lazima iwekwe",
+        tipPwdEmpty:"Nenosiri lazima liwekwe",
+        tipPwdNotSame:"Manenosiri hayafanani",
+        tipPwdMin:"Nenosiri angalau herufi 8",
+        tipRegisterOk:"Usajili umefanikiwa, ingia sasa",
+        tipRegisterFail:"Usajili umeshindwa",
+        tipLoginOk:"Umeingia kwa mafanikio, unaelekezwa",
+        tipLoginFail:"Jina au nenosiri si sahihi"
+    }
+};
+
+
+let currentLang = "en";
+const API_BASE = "http://127.0.0.1:8000/api";
+
+//按钮loading工具
+function setButtonLoading(btn, loading) {
+    if(loading) {
+        btn.dataset.originalText = btn.innerText;
+        btn.innerText = "···";
+        btn.disabled = true;
+    } else {
+        btn.innerText = btn.dataset.originalText;
+        btn.disabled = false;
+    }
+}
+
+//tab切换：密码登录 /短信登录
+function switchTab(mode){
+    if(mode === "password"){
+        document.getElementById("formPwd").style.display="block";
+        document.getElementById("formSms").style.display="none";
+        document.getElementById("tabPwd").classList.add("active");
+        document.getElementById("tabSms").classList.remove("active");
+    }else{
+        document.getElementById("formPwd").style.display="none";
+        document.getElementById("formSms").style.display="block";
+        document.getElementById("tabPwd").classList.remove("active");
+        document.getElementById("tabSms").classList.add("active");
+    }
+}
+
+
+//多语言渲染
+function renderI18n(){
+    document.querySelectorAll('[data-i18n]').forEach(el=>{
+        const key = el.getAttribute("data-i18n");
+        if(locales[currentLang][key]) el.innerText = locales[currentLang][key];
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+        const key = el.getAttribute("data-i18n-placeholder");
+        if(locales[currentLang][key]) el.placeholder = locales[currentLang][key];
+    });
+}
+
+
+function setLang(lang){
+    currentLang = lang;
+    localStorage.setItem("lang", lang);
+    renderI18n();
+    document.querySelectorAll(".lang-btn").forEach(btn=>btn.classList.remove("active"));
+    event.target.classList.add("active");
+}
+
+
+//弹窗控制
+function openRegister(){
+    document.getElementById("registerModal").style.display="flex";
+}
+function closeRegister(){
+    document.getElementById("registerModal").style.display="none";
+}
+
+
+//密码眼睛显示隐藏
+document.querySelectorAll(".eye-icon").forEach(eye=>{
+    eye.onclick = function(){
+        const input = this.previousElementSibling;
+        if(input.type === "password"){
+            input.type = "text";
+            this.innerText = "🙈";
+        }else{
+            input.type = "password";
+            this.innerText = "👁";
+        }
+    }
+})
+
+
+// =========真实登录接口=========
+async function doLogin(){
+    const loginBtn = document.querySelector(".login-btn");
+    const agree = document.getElementById("agreeCheck").checked;
+    if(!agree){
+        alert(locales[currentLang].tipNeedAgree);
+        return;
+    }
+    // 修复选择器bug
+    const inputs = document.querySelectorAll("#formPwd .input-box");
+    const userInput = inputs[0];
+    const pwdInput = inputs[1];
+
+
+    const username = userInput.value.trim();
+    const password = pwdInput.value.trim();
+
+
+    if(!username){
+        alert(locales[currentLang].tipUserEmpty);
+        return;
+    }
+    if(!password){
+        alert(locales[currentLang].tipPwdEmpty);
+        return;
+    }
+
+
+    setButtonLoading(loginBtn, true);
+    try{
+        const resp = await fetch(`${API_BASE}/login`,{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({username,password})
+        })
+        const resData = await resp.json();
+        if(resp.ok){
+            localStorage.setItem("isLogin","true");
+            localStorage.setItem("token", resData.access_token);
+            //新增保存用户名
+            localStorage.setItem("username", resData.username);
+            window.location.assign("./index.html");
+        }else{
+            alert(resData.detail || locales[currentLang].tipLoginFail);
+        }
+    }catch(err){
+        console.error(err);
+        alert("API connect error");
+    }finally{
+        setButtonLoading(loginBtn, false);
+    }
+}
+
+
+
+
+// =========注册弹窗完成注册=========
+document.querySelector(".btn-register").onclick = async function(){
+    const regBtn = this;
+    const regAgree = document.getElementById("regAgreeCheck").checked;
+    if(!regAgree){
+        alert(locales[currentLang].tipNeedAgree);
+        return;
+    }
+    const inputs = document.querySelectorAll(".reg-form-item input");
+    const regUname = inputs[0].value.trim();
+    const regPhone = inputs[1].value.trim();
+    const regPwd1 = inputs[2].value.trim();
+    const regPwd2 = inputs[3].value.trim();
+
+
+    if(!regUname){
+        alert(locales[currentLang].tipUserEmpty);
+        return;
+    }
+    if(!regPhone){
+        alert(locales[currentLang].tipPhoneEmpty);
+        return;
+    }
+    if(regPwd1.length <8){
+        alert(locales[currentLang].tipPwdMin);
+        return;
+    }
+    if(regPwd1 !== regPwd2){
+        alert(locales[currentLang].tipPwdNotSame);
+        return;
+    }
+
+    setButtonLoading(regBtn, true);
+    try{
+        const resp = await fetch(`${API_BASE}/register`,{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({
+                username: regUname,
+                phone: regPhone,
+                password: regPwd1
+            })
+        })
+        const resData = await resp.json();
+        if(resp.ok){
+            alert(locales[currentLang].tipRegisterOk);
+            closeRegister();
+        }else{
+            alert(resData.detail||locales[currentLang].tipRegisterFail);
+        }
+    }catch(e){
+        console.error(e);
+        alert("API connect error");
+    }finally{
+        setButtonLoading(regBtn, false);
+    }
+}
+
+
+window.onload = ()=>{
+    const savedLang = localStorage.getItem("lang");
+    if(savedLang) currentLang = savedLang;
+    renderI18n();
+    document.querySelectorAll(".lang-btn").forEach(b=>b.classList.remove("active"));
+    document.querySelector(`.lang-btn[onclick*='${currentLang}']`).classList.add("active");
+}
+</script>
+</body>
+</html>

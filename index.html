@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="homeTitle">Imarika Home</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+        }
+        body {
+            background-color: #f8f9fa;
+            padding-bottom: 80px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding:20px 16px;
+        }
+
+        /* 天气卡片 */
+        .weather-card {
+            background: linear-gradient(135deg,#5468ff,#3b4cd8);
+            color:#fff;
+            border-radius:20px;
+            padding:20px;
+            margin-bottom:16px;
+        }
+        .weather-top{
+            display:flex;
+            justify-content:space-between;
+            align-items:flex-start;
+        }
+        .weather-left .temp{
+            font-size:36px;
+            font-weight:500;
+            margin-top:8px;
+        }
+        .weather-right{
+            text-align:right;
+        }
+        .city-name{
+            cursor:pointer;
+            text-decoration: underline dotted rgba(255,255,255,0.6);
+        }
+        .weather-meta{
+            margin-top:12px;
+            display:flex;
+            gap:16px;
+            font-size:14px;
+            opacity:0.9;
+            justify-content:flex-end;
+        }
+        .expand-7day{
+            width:100%;
+            background:rgba(255,255,255,0.15);
+            border-radius:12px;
+            text-align:center;
+            padding:6px;
+            margin-top:14px;
+            font-size:14px;
+            cursor: pointer;
+        }
+        .seven-day-panel{
+            margin-top:10px;
+            background:rgba(255,255,255,0.15);
+            border-radius:12px;
+            padding:12px;
+        }
+        .day-item{
+            display:flex;
+            justify-content:space-between;
+            padding:6px 0;
+            border-bottom:1px solid rgba(255,255,255,0.15);
+            align-items:center;
+        }
+        .day-item:last-child{
+            border-bottom:none;
+        }
+
+        /* 语言切换行 */
+        .lang-row{
+            background:#ffffff;
+            border-radius:16px;
+            padding:16px 20px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            box-shadow:0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom:20px;
+        }
+        .lang-left{
+            display:flex;
+            align-items:center;
+            gap:10px;
+            font-size:18px;
+            font-weight:500;
+        }
+        .lang-current{
+            background:#e6f8ef;
+            color:#2b9b62;
+            padding:4px 12px;
+            border-radius:8px;
+        }
+
+        /* 功能网格 */
+        .func-grid{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:16px;
+            margin-bottom:24px;
+        }
+        .func-card{
+            border-radius:20px;
+            padding:30px 16px;
+            text-align:center;
+            cursor:pointer;
+            box-shadow:0 2px 12px rgba(0,0,0,0.04);
+        }
+        .func-card.blue{
+            background:linear-gradient(145deg,#e8f0ff,#f0f5ff);
+        }
+        .func-card.green{
+            background:linear-gradient(145deg,#e6f9ec,#edfcf2);
+        }
+        .func-icon{
+            width:72px;
+            height:72px;
+            border-radius:16px;
+            margin:0 auto 14px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:32px;
+        }
+        .func-icon.blue{
+            background:#2b65ec;
+            color:white;
+        }
+        .func-icon.green{
+            background:#23a864;
+            color:white;
+        }
+        .func-title{
+            font-size:20px;
+            font-weight:600;
+            color:#1f2937;
+            margin-bottom:6px;
+        }
+        .func-desc{
+            font-size:14px;
+            color:#6b7280;
+        }
+
+        /* 页面容器，三个页面切换 */
+        .page{
+            display:none;
+        }
+        .page.active{
+            display:block;
+        }
+
+        /* 消息页样式 */
+        .page-title{
+            font-size:30px;
+            font-weight:bold;
+            margin-bottom:8px;
+        }
+        .page-subtitle{
+            color:#666;
+            margin-bottom:24px;
+        }
+        .msg-block{
+            margin-bottom:22px;
+        }
+        .msg-block h3{
+            font-size:17px;
+            margin-bottom:12px;
+            display:flex;
+            align-items:center;
+            gap:6px;
+        }
+        .msg-item{
+            border-radius:16px;
+            padding:18px;
+            box-shadow:0 2px 8px rgba(0,0,0,0.06);
+        }
+        .msg-empty{
+            color:#777;
+            text-align:center;
+            padding:24px;
+        }
+        .msg-normal{
+            background:linear-gradient(135deg,#ecfcf2,#f4fdf6);
+        }
+        .msg-warn{
+            background:linear-gradient(135deg,#fff9e0,#fff3d0);
+        }
+        .msg-danger{
+            background:linear-gradient(135deg,#ffe9e9,#ffdddd);
+        }
+
+        /* 个人中心 */
+        .user-card{
+            background:#fff;
+            border-radius:20px;
+            padding:28px 20px;
+            text-align:center;
+            box-shadow:0 3px 14px rgba(0,0,0,0.05);
+            margin-bottom:18px;
+        }
+        .user-avatar{
+            width:90px;
+            height:90px;
+            border-radius:50%;
+            background:#23a864;
+            margin:0 auto 14px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:44px;
+            color:white;
+        }
+        .user-phone{
+            font-size:26px;
+            font-weight:600;
+            margin-bottom:10px;
+        }
+        .user-score{
+            background:#fff3e0;
+            display:inline-block;
+            padding:6px 16px;
+            border-radius:20px;
+            color:#d97706;
+            font-weight:500;
+        }
+        .menu-item{
+            background:#fff;
+            border-radius:16px;
+            padding:18px 20px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:12px;
+            box-shadow:0 2px 10px rgba(0,0,0,0.04);
+            cursor:pointer;
+        }
+        .menu-left{
+            display:flex;
+            align-items:center;
+            gap:10px;
+            font-size:17px;
+        }
+        .logout-btn{
+            width:100%;
+            margin-top:30px;
+            padding:14px;
+            border-radius:12px;
+            border:1px solid #ef4444;
+            color:#ef4444;
+            background:#fff;
+            font-size:16px;
+            cursor:pointer;
+        }
+
+        /* 底部Tab栏 */
+        .tab-bar-bottom{
+            position:fixed;
+            bottom:0;
+            left:0;
+            right:0;
+            background:#ffffff;
+            box-shadow:0 -2px 12px rgba(0,0,0,0.06);
+            display:flex;
+            max-width:480px;
+            margin:0 auto;
+        }
+        .tab-bottom-item{
+            flex:1;
+            text-align:center;
+            padding:10px 0;
+            cursor:pointer;
+            color:#888;
+        }
+        .tab-bottom-item.active{
+            color:#2b9b62;
+        }
+        .tab-icon{
+            font-size:22px;
+            margin-bottom:4px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- 首页页面 -->
+    <div id="pageHome" class="page active">
+        <!--天气卡片 改为肯尼亚内罗毕天气-->
+        <div class="weather-card">
+            <div class="weather-top">
+                <div class="weather-left">
+                    <div data-i18n="weatherToday">今日天气</div>
+                    <div class="temp" id="tempNow">--℃</div>
+                </div>
+                <div class="weather-right">
+                    <div class="city-name" id="cityDisplay" onclick="openCitySelect()">内罗毕，肯尼亚</div>
+                    <div id="tempHiLo">-- / --℃</div>
+                    <div style="margin-top:4px;font-size:14px;" id="weatherDesc">--</div>
+                </div>
+            </div>
+            <div class="weather-meta">
+                <span>💧 <span data-i18n="humidityTxt">湿度</span>:<span id="humidityVal">--</span>%</span>
+                <span>🍃 <span data-i18n="airQualityGood">空气:优</span></span>
+            </div>
+            <div id="expand7dayBtn" class="expand-7day" data-i18n="expand7day">展开未来7天 ▼</div>
+            <div id="sevenDayPanel" class="seven-day-panel" style="display:none;"></div>
+        </div>
+
+        <!--语言切换-->
+        <div class="lang-row" onclick="openLangSelect()">
+            <div class="lang-left">
+                <span>🌐</span>
+                <span data-i18n="switchLang">切换语言</span>
+            </div>
+            <div class="lang-current" id="showCurrentLang">EN</div>
+        </div>
+
+        <!--功能卡片-->
+        <div class="func-grid">
+            <div class="func-card blue" onclick="goChat()">
+                <div class="func-icon blue">🎤</div>
+                <div class="func-title" data-i18n="shennongAssistant">神农助手</div>
+                <div class="func-desc" data-i18n="voiceChat">语音对话</div>
+            </div>
+            <div class="func-card green" onclick="goDetect()">
+                <div class="func-icon green">📷</div>
+                <div class="func-title" data-i18n="pestDetect">病虫害识别</div>
+                <div class="func-desc" data-i18n="photoDetect">拍照识别</div>
+            </div>
+        </div>
+    </div>
+
+    <!--消息通知页面-->
+    <div id="pageMsg" class="page">
+        <h1 class="page-title" data-i18n="msgNotify">消息通知</h1>
+        <div class="page-subtitle" id="msgPageSub" data-i18n="msgSubTitle">当前天气平稳，暂无极端预警</div>
+
+        <div class="msg-block">
+            <h3>🤝 <span data-i18n="bizMsg">业务消息</span></h3>
+            <div class="msg-item msg-empty" data-i18n="noBizMsg">暂无业务消息</div>
+        </div>
+
+        <div class="msg-block">
+            <h3>⚠️ <span data-i18n="sysAlert">系统预警</span></h3>
+            <div id="farmAlertCard" class="msg-item msg-normal">
+                <div style="display:flex;gap:10px;align-items:flex-start;">
+                    <span id="alertIcon" style="font-size:32px;">☀️</span>
+                    <div>
+                        <div id="alertTitle" style="font-weight:600;font-size:18px;margin-bottom:6px;"></div>
+                        <div id="alertTip" style="color:#333;"></div>
+                        <div style="margin-top:10px;color:#777;font-size:14px;">今日 <span id="msgWeatherText">--</span> • <span id="msgHiLo">--° / --°</span> • 📍 <span id="msgCityText">内罗毕，肯尼亚</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--个人中心页面-->
+    <div id="pageMine" class="page">
+        <h1 class="page-title" data-i18n="personalCenter">个人中心</h1>
+        <div class="page-subtitle" data-i18n="personalSub">管理您的账户和设置</div>
+
+        <div class="user-card">
+            <div class="user-avatar">👨‍🌾</div>
+            <div class="user-phone" id="showPhone">--</div>
+            <div class="user-score">⭐ <span data-i18n="score">积分</span>: 30</div>
+        </div>
+
+        <div class="menu-item" onclick="openCitySelect()">
+            <div class="menu-left">📍 <span data-i18n="switchRegion">切换地区</span></div>
+            <span>></span>
+        </div>
+        <div class="menu-item">
+            <div class="menu-left">🎁 <span data-i18n="myReward">我的奖励</span></div>
+            <span>></span>
+        </div>
+        <div class="menu-item">
+            <div class="menu-left">❓ <span data-i18n="helpDoc">使用帮助</span></div>
+            <span>></span>
+        </div>
+        <div class="menu-item" onclick="openLangSelect()">
+            <div class="menu-left">🌐 <span data-i18n="switchLang">切换语言</span></div>
+            <span>></span>
+        </div>
+
+        <button class="logout-btn" onclick="doLogout()" data-i18n="logout">退出登录</button>
+    </div>
+
+</div>
+
+<!-- 语言选择弹窗 -->
+<div id="langModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9999;align-items:center;justify-content:center;padding:12px;">
+  <div style="background:#fff;border-radius:20px;width:100%;max-width:430px;max-height:82vh;overflow-y:auto;padding:26px 22px;box-sizing:border-box;">
+    <h2 style="text-align:center;font-size:24px;font-weight:bold;margin:0 0 22px 0;">选择语言</h2>
+    <div id="langListWrap"></div>
+    <div style="margin-top:18px;text-align:center;">
+      <button onclick="closeLangModal()" style="padding:9px 26px;border-radius:10px;border:none;background:#e4e6eb;font-size:16px;cursor:pointer;">取消</button>
+    </div>
+  </div>
+</div>
+
+<!-- 地区选择弹窗 -->
+<div id="cityModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:10000;align-items:center;justify-content:center;padding:12px;">
+  <div style="background:#fff;border-radius:20px;width:100%;max-width:430px;max-height:82vh;overflow-y:auto;padding:26px 22px;box-sizing:border-box;">
+    <h2 style="text-align:center;font-size:24px;font-weight:bold;margin:0 0 22px 0;">选择地区</h2>
+    <div id="cityListWrap"></div>
+    <div style="margin-top:18px;text-align:center;">
+      <button onclick="closeCityModal()" style="padding:9px 26px;border-radius:10px;border:none;background:#e4e6eb;font-size:16px;cursor:pointer;">取消</button>
+    </div>
+  </div>
+</div>
+
+<!--底部Tab导航-->
+<div class="tab-bar-bottom">
+    <div class="tab-bottom-item active" onclick="switchBottomTab('home')">
+        <div class="tab-icon">🏠</div>
+        <div data-i18n="tabHome">首页</div>
+    </div>
+    <div class="tab-bottom-item" onclick="switchBottomTab('msg')">
+        <div class="tab-icon">📩</div>
+        <div data-i18n="tabMsg">消息</div>
+    </div>
+    <div class="tab-bottom-item" onclick="switchBottomTab('mine')">
+        <div class="tab-icon">👤</div>
+        <div data-i18n="tabMine">我的</div>
+    </div>
+</div>
+
+<script>
+// 和login.html完全一致的多语言词库
+const locales = {
+    zh:{
+        homeTitle:"Imarika 首页",
+        weatherToday:"今日天气",
+        expand7day:"展开未来7天 ▼",
+        switchLang:"切换语言",
+        switchRegion:"切换地区",
+        humidityTxt:"湿度",
+        airQualityGood:"空气：优",
+        shennongAssistant:"神农助手",
+        voiceChat:"语音对话",
+        pestDetect:"病虫害识别",
+        photoDetect:"拍照识别",
+
+        msgNotify:"消息通知",
+        msgSubTitle:"当前天气平稳，暂无极端预警",
+        bizMsg:"业务消息",
+        noBizMsg:"暂无业务消息",
+        sysAlert:"系统预警",
+        farmWeatherGood:"农事天气良好",
+        farmWeatherTip:"💡空气清新，温湿适宜，是绝佳的农作时机！",
+        farmRainAlert:"雨天农事提醒",
+        farmRainTip:"💡正在降雨，避免田间施肥喷药，注意农田排水。",
+        farmHeavyRain:"暴雨灾害预警",
+        farmHeavyRainTip:"💡暴雨来袭，防范洪涝，不要下田作业。",
+        farmHotAlert:"高温干旱预警",
+        farmHotTip:"💡气温过高，避免正午劳作，作物注意补水抗旱。",
+        farmColdAlert:"低温冷害提醒",
+        farmColdTip:"💡温度偏低，幼苗需要做好防寒防护。",
+        alertRainNotice:"⚠️有降雨，请留意田间排水",
+        alertStorm:"🔴极端暴雨灾害预警",
+        alertHighTemp:"⚠️高温风险，注意抗旱",
+        alertLowTemp:"⚠️低温，注意作物防冻",
+
+        personalCenter:"个人中心",
+        personalSub:"管理您的账户和设置",
+        score:"积分",
+        myReward:"我的奖励",
+        helpDoc:"使用帮助",
+        logout:"退出登录",
+
+        tabHome:"首页",
+        tabMsg:"消息",
+        tabMine:"我的",
+
+        langZh:"中文",
+        langEn:"English",
+        langSw:"Kiswahili",
+        logoutConfirm:"确定退出登录吗？"
+    },
+    en:{
+        homeTitle:"Imarika Home",
+        weatherToday:"Today Weather",
+        expand7day:"Expand next 7 days ▼",
+        switchLang:"Switch Language",
+        switchRegion:"Switch Region",
+        humidityTxt:"Humidity",
+        airQualityGood:"Air: Good",
+        shennongAssistant:"Shennong Assistant",
+        voiceChat:"Voice Chat",
+        pestDetect:"Pest Detect",
+        photoDetect:"Photo Recognize",
+
+        msgNotify:"Message Notification",
+        msgSubTitle:"Weather stable, no extreme alert",
+        bizMsg:"Business Message",
+        noBizMsg:"No business message",
+        sysAlert:"System Alert",
+        farmWeatherGood:"Good farming weather",
+        farmWeatherTip:"💡Fresh air, suitable temperature for farming work!",
+        farmRainAlert:"Rain farming reminder",
+        farmRainTip:"💡It is raining, avoid fertilizing or spraying, pay attention to field drainage.",
+        farmHeavyRain:"Heavy rain warning",
+        farmHeavyRainTip:"💡Heavy rain incoming, prevent flood, do not work in farmland.",
+        farmHotAlert:"High temperature drought warning",
+        farmHotTip:"💡High temperature, avoid noon work, water crops.",
+        farmColdAlert:"Low temperature crop warning",
+        farmColdTip:"💡Low temperature, seedlings need cold protection.",
+        alertRainNotice:"⚠️Rainfall, watch field drainage",
+        alertStorm:"🔴Severe heavy rain warning",
+        alertHighTemp:"⚠️High temperature risk, drought prevention",
+        alertLowTemp:"⚠️Low temperature, crop frost protection",
+
+        personalCenter:"Personal Center",
+        personalSub:"Manage your account & settings",
+        score:"Score",
+        myReward:"My Reward",
+        helpDoc:"Help Document",
+        logout:"Logout",
+
+        tabHome:"Home",
+        tabMsg:"Message",
+        tabMine:"Mine",
+
+        langZh:"中文",
+        langEn:"English",
+        langSw:"Kiswahili",
+        logoutConfirm:"Confirm logout?"
+    },
+    sw:{
+        homeTitle:"Imarika Nyumbani",
+        weatherToday:"Hali ya hewa leo",
+        expand7day:"Onyesha siku 7 zijazo ▼",
+        switchLang:"Badilisha Lugha",
+        switchRegion:"Badilisha Eneo",
+        humidityTxt:"Unyevu",
+        airQualityGood:"Hewa: Nzuri",
+        shennongAssistant:"Msaidizi Shennong",
+        voiceChat:"Mazungumzo ya sauti",
+        pestDetect:"Utambuzi wa wadudu",
+        photoDetect:"Utambuzi kwa picha",
+
+        msgNotify:"Arifa za ujumbe",
+        msgSubTitle:"Hali ya hewa imetulia, hakuna tahadhari kali",
+        bizMsg:"Ujumbe wa kazi",
+        noBizMsg:"Hakuna ujumbe wa kazi",
+        sysAlert:"Tahadhari ya mfumo",
+        farmWeatherGood:"Hali nzuri ya kilimo",
+        farmWeatherTip:"💡Hewa safi, joto linalofaa kwa kazi ya shamba!",
+        farmRainAlert:"Tahadhari ya mvua",
+        farmRainTip:"💡Mvua inanyesha, epuka kunyunyizia dawa, angalia mifereji ya maji.",
+        farmHeavyRain:"Tahadhari ya mvua kubwa",
+        farmHeavyRainTip:"💡Mvua kubwa, epuka mafuriko, usifanye kazi shambani.",
+        farmHotAlert:"Tahadhari ya joto kali",
+        farmHotTip:"💡Joto kali, epuka kazi mchana, umwagilia mimea.",
+        farmColdAlert:"Tahadhari ya baridi",
+        farmColdTip:"💡Joto linapungua, linda miche dhidi ya baridi.",
+        alertRainNotice:"⚠️Mvua inanyesha, angalia mifereji",
+        alertStorm:"🔴Tahadhari kubwa ya mvua",
+        alertHighTemp:"⚠️Joto kali, kinga ukame",
+        alertLowTemp:"⚠️Baridi, linda mimea",
+
+        personalCenter:"Kituo cha binafsi",
+        personalSub:"Dhibiti akaunti yako na mipangilio",
+        score:"Alama",
+        myReward:"Zawadi zangu",
+        helpDoc:"Msaada",
+        logout:"Toka",
+
+        tabHome:"Nyumbani",
+        tabMsg:"Ujumbe",
+        tabMine:"Yangu",
+
+        langZh:"中文",
+        langEn:"English",
+        langSw:"Kiswahili",
+        logoutConfirm:"Thibitisha kutoka?"
+    }
+};
+
+// 城市配置，扩充肯尼亚主要农业郡
+const cityOptions = [
+    {
+        key:"nairobi",
+        name:{zh:"内罗毕，肯尼亚",en:"Nairobi, Kenya",sw:"Nairobi, Kenya"},
+        lat:-1.2864,
+        lon:36.8172,
+        timezone:"Africa/Nairobi"
+    },
+    {
+        key:"mombasa",
+        name:{zh:"蒙巴萨，肯尼亚",en:"Mombasa, Kenya",sw:"Mombasa, Kenya"},
+        lat:-4.0435,
+        lon:39.6682,
+        timezone:"Africa/Nairobi"
+    },
+    {
+        key:"kisumu",
+        name:{zh:"基苏木，肯尼亚",en:"Kisumu, Kenya",sw:"Kisumu, Kenya"},
+        lat:-0.0917,
+        lon:34.7680,
+        timezone:"Africa/Nairobi"
+    },
+    {
+        key:"eldoret",
+        name:{zh:"埃尔多雷特，肯尼亚",en:"Eldoret, Kenya",sw:"Eldoret, Kenya"},
+        lat:0.5204,
+        lon:35.2699,
+        timezone:"Africa/Nairobi"
+    },
+    {
+        key:"kiambu",
+        name:{zh:"基安布，肯尼亚",en:"Kiambu, Kenya",sw:"Kiambu, Kenya"},
+        lat:-1.1670,
+        lon:36.8210,
+        timezone:"Africa/Nairobi"
+    }
+];
+
+//仅项目3门语言
+const langOptions = [
+  { key:"zh", flag:"cn", label:"中文" },
+  { key:"en", flag:"us", label:"English" },
+  { key:"sw", flag:"ke", label:"Kiswahili" }
+];
+
+//WMO天气编码映射，支持三语言
+const weatherCodeMap = {
+ 0: {zh:"晴",en:"Sunny",sw:"Jua kali",emoji:"☀️"},
+ 1: {zh:"大部晴",en:"Mainly clear",sw:"Kwa ujumla wazi",emoji:"🌤️"},
+ 2: {zh:"多云",en:"Partly cloudy",sw:"Mawingu kidogo",emoji:"⛅"},
+ 3: {zh:"阴天",en:"Overcast",sw:"Mawingu mengi",emoji:"☁️"},
+ 45: {zh:"雾",en:"Foggy",sw:"Ukungu",emoji:"🌫️"},
+ 51: {zh:"小雨",en:"Light drizzle",sw:"Mvua kidogo",emoji:"🌧️"},
+ 61: {zh:"小雨",en:"Light rain",sw:"Mvua kidogo",emoji:"🌧️"},
+ 63: {zh:"中雨",en:"Moderate rain",sw:"Mvua ya kati",emoji:"🌧️"},
+ 65: {zh:"大雨",en:"Heavy rain",sw:"Mvua kubwa",emoji:"⛈️"}
+};
+
+let currentLang = "en";
+let currentCityKey = "nairobi";
+let sevenDayData = null;
+let isExpand7Day = false;
+
+// 获取当前城市对象
+function getCurrentCity(){
+    return cityOptions.find(c=>c.key === currentCityKey) || cityOptions[0];
+}
+
+//获取城市当前语言下的名字
+function getCityDisplayName(cityObj){
+    return cityObj.name[currentLang];
+}
+
+/**
+ * 根据气象数据生成农事预警
+ * @param {number} tempNow
+ * @param {number} wCode
+ * @param {number} humidity
+ * @returns {{icon:string,titleKey:string,tipKey:string,subTitleKey:string,level:'normal'|'warn'|'danger'}}
+ */
+function generateFarmAlert(tempNow, wCode, humidity){
+    //大雨
+    if([65].includes(wCode)){
+        return {
+            icon:"⛈️",
+            titleKey:"farmHeavyRain",
+            tipKey:"farmHeavyRainTip",
+            subTitleKey:"alertStorm",
+            level:"danger"
+        }
+    }
+    //小雨中雨
+    if([51,61,63].includes(wCode)){
+        return {
+            icon:"🌧️",
+            titleKey:"farmRainAlert",
+            tipKey:"farmRainTip",
+            subTitleKey:"alertRainNotice",
+            level:"warn"
+        }
+    }
+    //高温
+    if(tempNow > 32){
+        return {
+            icon:"🔥",
+            titleKey:"farmHotAlert",
+            tipKey:"farmHotTip",
+            subTitleKey:"alertHighTemp",
+            level:"warn"
+        }
+    }
+    //低温
+    if(tempNow <12){
+        return {
+            icon:"❄️",
+            titleKey:"farmColdAlert",
+            tipKey:"farmColdTip",
+            subTitleKey:"alertLowTemp",
+            level:"warn"
+        }
+    }
+    //适宜
+    return {
+        icon:"☀️",
+        titleKey:"farmWeatherGood",
+        tipKey:"farmWeatherTip",
+        subTitleKey:"msgSubTitle",
+        level:"normal"
+    }
+}
+
+//获取天气
+async function fetchWeather(){
+    const city = getCurrentCity();
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current=temperature_2m,relative_humidity_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=${encodeURIComponent(city.timezone)}`;
+    try{
+      const res = await fetch(url);
+      const data = await res.json();
+      const current = data.current;
+      const daily = data.daily;
+      sevenDayData = daily;
+
+      const tempNow = current.temperature_2m;
+      const tempMax = daily.temperature_2m_max[0];
+      const tempMin = daily.temperature_2m_min[0];
+      const humidity = current.relative_humidity_2m;
+      const wCode = current.weather_code;
+
+      const weatherText = weatherCodeMap[wCode] ? weatherCodeMap[wCode][currentLang] : weatherCodeMap[0][currentLang];
+
+      document.getElementById("tempNow").innerText = Math.round(tempNow)+"℃";
+      document.getElementById("tempHiLo").innerText = `${Math.round(tempMax)} / ${Math.round(tempMin)}℃`;
+      document.getElementById("humidityVal").innerText = humidity;
+      document.getElementById("weatherDesc").innerText = weatherText;
+      document.getElementById("msgWeatherText").innerText = weatherText;
+      document.getElementById("msgHiLo").innerText = `${Math.round(tempMax)}° / ${Math.round(tempMin)}°`;
+
+      // 更新城市文本（跟随多语言）
+      const cityObj = getCurrentCity();
+      const cityShowName = getCityDisplayName(cityObj);
+      document.getElementById("cityDisplay").innerText = cityShowName;
+      document.getElementById("msgCityText").innerText = cityShowName;
+
+      // ========== 动态农事预警渲染 ==========
+      const alert = generateFarmAlert(tempNow, wCode, humidity);
+      document.getElementById("alertIcon").innerText = alert.icon;
+      document.getElementById("alertTitle").innerText = locales[currentLang][alert.titleKey];
+      document.getElementById("alertTip").innerText = locales[currentLang][alert.tipKey];
+      document.getElementById("msgPageSub").innerText = locales[currentLang][alert.subTitleKey];
+
+      const cardDom = document.getElementById("farmAlertCard");
+      cardDom.classList.remove("msg-normal","msg-warn","msg-danger");
+      if(alert.level === "normal") cardDom.classList.add("msg-normal");
+      else if(alert.level === "warn") cardDom.classList.add("msg-warn");
+      else if(alert.level === "danger") cardDom.classList.add("msg-danger");
+
+      // 如果面板已经展开，刷新7天列表
+      if(isExpand7Day){
+          renderSevenDay();
+      }
+
+    }catch(err){
+      console.error("获取天气失败",err);
+    }
+}
+
+//渲染7天预报，增加emoji图标
+function renderSevenDay(){
+    const panel = document.getElementById("sevenDayPanel");
+    if(!sevenDayData){
+        panel.innerHTML = "<div>加载中...</div>";
+        return;
+    }
+    let html = "";
+    for(let i=0;i<7;i++){
+        const dateStr = sevenDayData.time[i];
+        const wCode = sevenDayData.weather_code[i];
+        const tmax = Math.round(sevenDayData.temperature_2m_max[i]);
+        const tmin = Math.round(sevenDayData.temperature_2m_min[i]);
+        const wItem = weatherCodeMap[wCode] || weatherCodeMap[0];
+        const wText = wItem[currentLang];
+        const emoji = wItem.emoji;
+        html += `
+        <div class="day-item">
+            <div>${dateStr}</div>
+            <div>${emoji} ${wText}</div>
+            <div>${tmax}°/${tmin}°</div>
+        </div>
+        `;
+    }
+    panel.innerHTML = html;
+}
+
+//绑定7天展开按钮
+function bindExpandBtn(){
+    const btn = document.getElementById("expand7dayBtn");
+    const panel = document.getElementById("sevenDayPanel");
+    btn.onclick = function(){
+        isExpand7Day = !isExpand7Day;
+        if(isExpand7Day){
+            panel.style.display = "block";
+            btn.innerText = locales[currentLang].expand7day.replace("▼","▲");
+            renderSevenDay();
+        }else{
+            panel.style.display = "none";
+            btn.innerText = locales[currentLang].expand7day.replace("▲","▼");
+        }
+    }
+}
+
+//唤起语言弹窗
+function openLangSelect(){
+ document.getElementById("langModal").style.display = "flex";
+ renderLangList();
+}
+
+//关闭弹窗
+function closeLangModal(){
+ document.getElementById("langModal").style.display = "none";
+}
+
+//渲染语言列表UI
+function renderLangList(){
+ const wrap = document.getElementById("langListWrap");
+ wrap.innerHTML = "";
+
+ langOptions.forEach(item=>{
+   const isActive = currentLang === item.key;
+   const itemDom = document.createElement("div");
+   itemDom.style.marginBottom = "12px";
+   itemDom.style.borderRadius = "12px";
+   itemDom.style.padding = "14px 16px";
+   itemDom.style.display = "flex";
+   itemDom.style.justifyContent = "space-between";
+   itemDom.style.alignItems = "center";
+   itemDom.style.cursor = "pointer";
+
+   if(isActive){
+     itemDom.style.border = "2px solid #28c776";
+     itemDom.style.backgroundColor = "#ecfcf2";
+   }else{
+     itemDom.style.border = "1px solid #ddd";
+     itemDom.style.backgroundColor = "#ffffff";
+   }
+
+   itemDom.innerHTML = `
+     <div style="display:flex;gap:10px;align-items:center;">
+       <span>${item.flag}</span>
+       <span style="font-size:17px;">${item.label}</span>
+     </div>
+     ${isActive ? `<span style="color:#28c776;font-size:20px;">✓</span>` : ""}
+   `;
+
+   itemDom.onclick = function(){
+     currentLang = item.key;
+     localStorage.setItem("agri_lang", currentLang);
+     renderI18n();
+     refreshLangShow();
+     fetchWeather(); //切换语言刷新天气文字、城市名称
+     closeLangModal();
+   }
+   wrap.appendChild(itemDom);
+ })
+}
+
+// 地区弹窗
+function openCitySelect(){
+    document.getElementById("cityModal").style.display = "flex";
+    renderCityList();
+}
+function closeCityModal(){
+    document.getElementById("cityModal").style.display = "none";
+}
+function renderCityList(){
+    const wrap = document.getElementById("cityListWrap");
+    wrap.innerHTML = "";
+    cityOptions.forEach(item=>{
+        const isActive = currentCityKey === item.key;
+        const div = document.createElement("div");
+        div.style.marginBottom="12px";
+        div.style.borderRadius="12px";
+        div.style.padding="14px 16px";
+        div.style.display="flex";
+        div.style.justifyContent="space-between";
+        div.style.alignItems="center";
+        div.style.cursor="pointer";
+        if(isActive){
+            div.style.border="2px solid #28c776";
+            div.style.backgroundColor="#ecfcf2";
+        }else{
+            div.style.border="1px solid #ddd";
+            div.style.backgroundColor="#fff";
+        }
+        div.innerHTML = `<span style="font-size:17px;">${getCityDisplayName(item)}</span> ${isActive?'<span style="color:#28c776;font-size:20px;">✓</span>':''}`;
+        div.onclick = function(){
+            currentCityKey = item.key;
+            localStorage.setItem("agri_city", currentCityKey);
+            fetchWeather();
+            closeCityModal();
+        }
+        wrap.appendChild(div);
+    })
+}
+
+//底部tab切换
+function switchBottomTab(mode){
+    //隐藏全部页面
+    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+    //清除tab激活
+    document.querySelectorAll(".tab-bottom-item").forEach(t=>t.classList.remove("active"));
+
+    if(mode === "home"){
+        document.getElementById("pageHome").classList.add("active");
+        document.querySelectorAll(".tab-bottom-item")[0].classList.add("active");
+    }else if(mode === "msg"){
+        document.getElementById("pageMsg").classList.add("active");
+        document.querySelectorAll(".tab-bottom-item")[1].classList.add("active");
+    }else if(mode === "mine"){
+        document.getElementById("pageMine").classList.add("active");
+        document.querySelectorAll(".tab-bottom-item")[2].classList.add("active");
+    }
+}
+
+//跳转到神农助手 assistant.html，移除alert弹窗
+function goChat(){
+    window.location.href="./assistant.html";
+}
+//跳转到病虫害识别页面，移除alert弹窗
+function goDetect(){
+    window.location.href="./detect.html";
+}
+
+function refreshLangShow(){
+    let displayText;
+    if(currentLang === "zh") displayText = locales[currentLang].langZh;
+    if(currentLang === "en") displayText = locales[currentLang].langEn;
+    if(currentLang === "sw") displayText = locales[currentLang].langSw;
+    document.getElementById("showCurrentLang").innerText = displayText;
+}
+
+//多语言渲染
+function renderI18n(){
+    document.querySelectorAll('[data-i18n]').forEach(el=>{
+        const key = el.getAttribute("data-i18n");
+        if(locales[currentLang][key]) el.innerText = locales[currentLang][key];
+    });
+}
+
+//退出登录
+function doLogout(){
+    if(confirm(locales[currentLang].logoutConfirm)){
+        localStorage.removeItem("isLogin");
+        localStorage.removeItem("token");
+        localStorage.removeItem("lang");
+        localStorage.removeItem("username"); 
+        window.location.href="./login.html";
+    }
+}
+
+window.onload = function(){
+    //登录校验，没有token直接回登录页
+    const token = localStorage.getItem("token");
+    if(!token){
+        window.location.href="./login.html";
+        return;
+    }
+
+    //绑定展开7天按钮点击事件
+    bindExpandBtn();
+
+    //读取语言
+    const savedLang = localStorage.getItem("agri_lang");
+    if(savedLang) currentLang = savedLang;
+    renderI18n();
+    refreshLangShow();
+
+    //读取保存的城市
+    const savedCity = localStorage.getItem("agri_city");
+    if(savedCity) currentCityKey = savedCity;
+
+    //拉取天气
+    fetchWeather();
+    //每15分钟自动刷新天气
+    setInterval(fetchWeather, 15 * 60 * 1000);
+
+    // 读取登录保存的真实用户名
+    const realUsername = localStorage.getItem("username") || "Guest";
+    document.getElementById("showPhone").innerText = realUsername;
+}
+</script>
+</body>
+</html>

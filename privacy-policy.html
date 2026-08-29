@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>隐私政策</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+        }
+        body {
+            background: linear-gradient(135deg,#f0fcf4,#f7fffa);
+            color:#222;
+            line-height:1.7;
+        }
+        .header-bar{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            padding:16px 24%;
+            background:#ffffff;
+            border-bottom:1px solid #e8f3ec;
+        }
+        .header-left{
+            display:flex;
+            align-items:center;
+            gap:10px;
+            font-size:18px;
+            font-weight:600;
+        }
+        .logo-icon{
+            width:32px;
+            height:32px;
+            border-radius:50%;
+            background:linear-gradient(135deg,#34c773,#2b8c58);
+            color:white;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+        .back-btn{
+            color:#2b9b62;
+            cursor:pointer;
+            font-size:15px;
+        }
+        .container{
+            max-width:720px;
+            margin:32px auto;
+            background:#ffffff;
+            border-radius:18px;
+            padding:40px 48px;
+            box-shadow:0 4px 20px rgba(0,0,0,0.04);
+        }
+        h1{
+            text-align:center;
+            font-size:24px;
+            margin-bottom:24px;
+            color:#111827;
+        }
+        .tip-box{
+            background:#ecfbf2;
+            border:1px solid #b8e9cc;
+            border-radius:10px;
+            padding:16px 20px;
+            margin-bottom:32px;
+            font-size:14px;
+            color:#166534;
+        }
+        h2{
+            font-size:19px;
+            color:#14532d;
+            border-left:4px solid #34c773;
+            padding-left:12px;
+            margin:28px 0 14px;
+        }
+        h3{
+            font-size:16px;
+            margin:18px 0 8px;
+        }
+        p{
+            margin-bottom:12px;
+            font-size:15px;
+            color:#333;
+        }
+        ul{
+            padding-left:22px;
+            margin-bottom:14px;
+        }
+        .lang-top{
+            position:fixed;
+            top:14px;
+            right:24px;
+        }
+        .lang-btn{
+            margin:0 3px;
+            padding:4px 10px;
+            border-radius:4px;
+            border:1px solid #b8e9cc;
+            background:#f0faf5;
+            color:#1a6b42;
+            cursor:pointer;
+        }
+        .lang-btn.active{
+            background-color:#2b9b62;
+            color:white;
+        }
+    </style>
+</head>
+<body>
+<div class="lang-top">
+    <button class="lang-btn" onclick="setLang('zh')">中文</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('sw')">SW</button>
+</div>
+
+<div class="header-bar">
+    <div class="header-left">
+        <div class="logo-icon">🌾</div>
+        <span data-i18n="headerTitle">隐私政策</span>
+    </div>
+    <div class="back-btn" onclick="goBack()" data-i18n="backText">← 返回</div>
+</div>
+
+<div class="container">
+    <h1 data-i18n="title">Imarika 隐私政策</h1>
+
+    <div class="tip-box" data-i18n="tipContent">
+本隐私政策向您说明 Imarika 如何收集、使用、存储、保护您的个人信息。使用本应用即代表您同意本隐私政策。如不同意，请停止使用。
+    </div>
+
+    <h2 data-i18n="chap1">一、概述</h2>
+    <p data-i18n="chap1Text">Imarika农业大模型应用由Imarika研发团队提供。我们高度重视用户隐私，严格按照相关法律法规保护您的个人信息。本政策适用于本应用全部服务。</p>
+
+    <h2 data-i18n="chap2">二、我们收集哪些信息</h2>
+    <h3 data-i18n="chap2_1">2.1 注册账号信息</h3>
+    <p data-i18n="chap2_1_text">当您注册账号时，我们收集：用户名、手机号码（如使用手机号注册）。</p>
+
+    <h3 data-i18n="chap2_2">2.2 您主动提交的内容</h3>
+    <ul>
+        <li data-i18n="c1">您向AI提问输入的文字、语音内容</li>
+        <li data-i18n="c2">用于病虫害识别上传的作物图片</li>
+        <li data-i18n="c3">您反馈问题、投诉时留下的联系信息</li>
+    </ul>
+
+    <h3 data-i18n="chap2_3">2.3 设备与日志信息</h3>
+    <p data-i18n="chap2_3_text">我们会收集基础访问日志，包括设备型号、浏览器类型、访问时间、接口请求记录，用于系统安全排查、故障分析，不会用于其他用途。我们不会主动获取位置、通讯录等敏感权限，除非您明确授权。</p>
+
+    <h2 data-i18n="chap3">三、信息的用途</h2>
+    <ul>
+        <li data-i18n="u1">提供、维护、优化农业AI问答、病虫害识别等核心服务</li>
+        <li data-i18n="u2">保障账号安全，识别异常登录与风险访问</li>
+        <li data-i18n="u3">处理用户反馈、问题咨询与投诉</li>
+        <li data-i18n="u4">改进模型与产品体验，优化农业回答质量（数据会做匿名化处理）</li>
+    </ul>
+    <p data-i18n="chap3_end">不会将您的个人信息用于无关商业营销。</p>
+
+    <h2 data-i18n="chap4">四、信息共享、转让与公开披露</h2>
+    <p data-i18n="chap4_text">未经您明确同意，我们不会向第三方共享、转让您的个人信息。仅在法律要求、政府机关依法要求时才会对外提供。不会将您的个人信息进行公开披露。</p>
+
+    <h2 data-i18n="chap5">五、信息存储与安全</h2>
+    <p data-i18n="chap5_text">您的数据存储于安全服务器，我们采取访问权限控制、加密等安全措施保护数据。但请注意互联网环境无法做到100%绝对安全。我们仅在实现服务目的必要期限内保存您的数据；账号注销后，将按照法规删除或匿名化个人信息。</p>
+
+    <h2 data-i18n="chap6">六、您的权利</h2>
+    <ul>
+        <li data-i18n="r1">访问：您可以查看自己的账号信息</li>
+        <li data-i18n="r2">更正：可以修改自己的账号资料</li>
+        <li data-i18n="r3">注销账号：注销后个人信息按规则清除</li>
+        <li data-i18n="r4">撤回同意：撤回后部分功能将无法继续使用</li>
+    </ul>
+    <p data-i18n="chap6_end">如需行使上述权利，可以通过联系我们的邮箱提交申请。</p>
+
+    <h2 data-i18n="chap7">七、未成年人保护</h2>
+    <p data-i18n="chap7_text">未满18周岁未成年人，请在监护人同意下使用本应用。如发现收集了未成年人未经监护人许可的个人信息，请联系我们，我们会尽快删除相关数据。</p>
+
+    <h2 data-i18n="chap8">八、本政策更新</h2>
+    <p data-i18n="chap8_text">我们可能会根据业务或法律要求更新本隐私政策。更新后会在页面展示新版本，继续使用即表示接受更新后的政策。</p>
+
+    <h2 data-i18n="chap9">九、联系我们</h2>
+    <p data-i18n="chap9_text">如果您对于隐私政策、个人信息处理有疑问、建议或投诉，请通过邮件联系我们。我们一般会在15个工作日内予以回复。</p>
+
+    <p data-i18n="finalTip">再次提醒：注册即代表您已阅读、理解并同意《用户服务协议》以及本《隐私政策》全部条款。</p>
+</div>
+
+<script>
+const locales = {
+    zh:{
+        headerTitle:"隐私政策",
+        backText:"← 返回",
+        title:"Imarika 隐私政策",
+        tipContent:"本隐私政策向您说明 Imarika 如何收集、使用、存储、保护您的个人信息。使用本应用即代表您同意本隐私政策。如不同意，请停止使用。",
+        chap1:"一、概述",
+        chap1Text:"Imarika农业大模型应用由Imarika研发团队提供。我们高度重视用户隐私，严格按照相关法律法规保护您的个人信息。本政策适用于本应用全部服务。",
+        chap2:"二、我们收集哪些信息",
+        chap2_1:"2.1 注册账号信息",
+        chap2_1_text:"当您注册账号时，我们收集：用户名、手机号码（如使用手机号注册）。",
+        chap2_2:"2.2 您主动提交的内容",
+        c1:"您向AI提问输入的文字、语音内容",
+        c2:"用于病虫害识别上传的作物图片",
+        c3:"您反馈问题、投诉时留下的联系信息",
+        chap2_3:"2.3 设备与日志信息",
+        chap2_3_text:"我们会收集基础访问日志，包括设备型号、浏览器类型、访问时间、接口请求记录，用于系统安全排查、故障分析，不会用于其他用途。我们不会主动获取位置、通讯录等敏感权限，除非您明确授权。",
+        chap3:"三、信息的用途",
+        u1:"提供、维护、优化农业AI问答、病虫害识别等核心服务",
+        u2:"保障账号安全，识别异常登录与风险访问",
+        u3:"处理用户反馈、问题咨询与投诉",
+        u4:"改进模型与产品体验，优化农业回答质量（数据会做匿名化处理）",
+        chap3_end:"不会将您的个人信息用于无关商业营销。",
+        chap4:"四、信息共享、转让与公开披露",
+        chap4_text:"未经您明确同意，我们不会向第三方共享、转让您的个人信息。仅在法律要求、政府机关依法要求时才会对外提供。不会将您的个人信息进行公开披露。",
+        chap5:"五、信息存储与安全",
+        chap5_text:"您的数据存储于安全服务器，我们采取访问权限控制、加密等安全措施保护数据。但请注意互联网环境无法做到100%绝对安全。我们仅在实现服务目的必要期限内保存您的数据；账号注销后，将按照法规删除或匿名化个人信息。",
+        chap6:"六、您的权利",
+        r1:"访问：您可以查看自己的账号信息",
+        r2:"更正：可以修改自己的账号资料",
+        r3:"注销账号：注销后个人信息按规则清除",
+        r4:"撤回同意：撤回后部分功能将无法继续使用",
+        chap6_end:"如需行使上述权利，可以通过联系我们的邮箱提交申请。",
+        chap7:"七、未成年人保护",
+        chap7_text:"未满18周岁未成年人，请在监护人同意下使用本应用。如发现收集了未成年人未经监护人许可的个人信息，请联系我们，我们会尽快删除相关数据。",
+        chap8:"八、本政策更新",
+        chap8_text:"我们可能会根据业务或法律要求更新本隐私政策。更新后会在页面展示新版本，继续使用即表示接受更新后的政策。",
+        chap9:"九、联系我们",
+        chap9_text:"如果您对于隐私政策、个人信息处理有疑问、建议或投诉，请通过邮件联系我们。我们一般会在15个工作日内予以回复。",
+        finalTip:"再次提醒：注册即代表您已阅读、理解并同意《用户服务协议》以及本《隐私政策》全部条款。"
+    },
+    en:{
+        headerTitle:"Privacy Policy",
+        backText:"← Back",
+        title:"Imarika Privacy Policy",
+        tipContent:"This policy describes how Imarika collects, uses, stores and protects your personal data. By using this application you agree to this privacy policy. Please stop using if you do not agree.",
+        chap1:"1. Overview",
+        chap1Text:"Imarika agricultural LLM application is developed by Imarika team. We attach great importance to user privacy and protect personal data in compliance with relevant laws. This policy applies to all services of this app.",
+        chap2:"2. What information we collect",
+        chap2_1:"2.1 Account registration information",
+        chap2_1_text:"When you register, we collect username and mobile phone number (if you register with phone number).",
+        chap2_2:"2.2 Content you actively submit",
+        c1:"Text and voice inputs you send to AI",
+        c2:"Crop images uploaded for pest‑disease identification",
+        c3:"Contact information you leave for feedback or complaints",
+        chap2_3:"2.3 Device and log information",
+        chap2_3_text:"We collect basic access logs including device model, browser type, access time and API request records for security troubleshooting. We will not access sensitive permissions such as location or address‑book without your explicit authorization.",
+        chap3:"3. How we use information",
+        u1:"Provide, maintain and optimize core services: AI Q&A, pest identification",
+        u2:"Protect account security; detect abnormal login and risky access",
+        u3:"Handle user feedback, consultation and complaints",
+        u4:"Improve model and product experience with anonymized data",
+        chap3_end:"Your personal data will not be used for unrelated commercial marketing.",
+        chap4:"4. Sharing, transfer and disclosure",
+        chap4_text:"Without your explicit consent, we will not share or transfer your personal data to third‑parties. Data may only be provided when required by law or competent authorities. We will not publicly disclose your personal information.",
+        chap5:"5. Data storage and security",
+        chap5_text:"Your data is stored on secure servers with access control and encryption measures. Note that no internet environment can guarantee absolute security. We retain data only for necessary service period. After account cancellation, personal data will be deleted or anonymized according to law.",
+        chap6:"6. Your rights",
+        r1:"Access: view your account information",
+        r2:"Rectification: modify your account profile",
+        r3:"Account cancellation: personal data will be cleared accordingly",
+        r4:"Withdraw consent: some functions may become unavailable",
+        chap6_end:"To exercise these rights, please submit request via our contact email.",
+        chap7:"7. Minor protection",
+        chap7_text:"Users under 18 should use this app with guardian consent. If we collect minor’s data without guardian approval, please contact us and we will delete such data promptly.",
+        chap8:"8. Policy revision",
+        chap8_text:"We may update this privacy policy for business or legal reasons. New version will be displayed on page. Continued use represents acceptance of updated terms.",
+        chap9:"9. Contact us",
+        chap9_text:"If you have questions, suggestions or complaints regarding privacy and personal data processing, please email us. We will normally reply within 15 working days.",
+        finalTip:"By registering, you confirm you have read, understood and agreed to all terms of User Service Agreement and this Privacy Policy."
+    },
+    sw:{
+        headerTitle:"Sera ya Faragha",
+        backText:"← Rudi",
+        title:"Sera ya Faragha ya Imarika",
+        tipContent:"Sera hii inaeleza jinsi Imarika inavyokusanya, kutumia, kuhifadhi na kulinda taarifa zako binafsi. Kutumia programu hii ina maana unakubali sera hii. Usitumie programu ikiwa haukubali.",
+        chap1:"1. Utangulizi",
+        chap1Text:"Programu ya mfano mkubwa wa kilimo Imarika imetengenezwa na timu ya Imarika. Tunaheshimu faragha ya watumiaji na tunalinda data kwa mujibu wa sheria. Sera hii inatumika kwa huduma zote za programu.",
+        chap2:"2. Taarifa tunazokusanya",
+        chap2_1:"2.1 Taarifa za usajili wa akaunti",
+        chap2_1_text:"Wakati wa kusajili akaunti, tunakusanya jina la mtumiaji na nambari ya simu (ikiwa unasajili kwa simu).",
+        chap2_2:"2.2 Maudhui unayotuma kwa makosa",
+        c1:"Maandishi na sauti unazotuma kwa akili bandia",
+        c2:"Picha za mimea unazopakua kwa utambuzi wa magonjwa",
+        c3:"Taarifa za mawasiliano unazotoa kwa malalamiko au ushauri",
+        chap2_3:"2.3 Taarifa za kifaa na kumbukumbu za matumizi",
+        chap2_3_text:"Tunakusanya kumbukumbu za msingi za ufikiaji kama vile aina ya kifaa, kivinjari, wakati wa kutembelea na rekodi za ombi la mfumo, kwa ajili ya usalama na kurekebisha makosa. Hatutachukua haki za eneo au vitabu vya simu bila idhini yako wazi.",
+        chap3:"3. Matumizi ya taarifa",
+        u1:"Kutoa, kudumisha na kuboresha huduma kama vile maswali ya AI na utambuzi wa magonjwa",
+        u2:"Kulinda usalama wa akaunti na kugundua ufikiaji hatari",
+        u3:"Kushughulikia ushauri na malalamiko ya watumiaji",
+        u4:"Kuboresha mfano na uzoefu wa programu kwa data iliyofichwa utambulisho",
+        chap3_end:"Hatutatumia taarifa zako binafsi kwa biashara zisizohusiana.",
+        chap4:"4. Kugawana, kuhamisha na kutoa taarifa kwa umma",
+        chap4_text:"Bila idhini yako wazi, hatutagawana au kuhamisha taarifa zako kwa watu wengine. Tunaweza kutoa data tu wakati sheria inataka au mamlaka za serikali zinaomba. Hatutachapisha taarifa zako binafsi kwa umma.",
+        chap5:"5. Uhifadhi na usalama wa data",
+        chap5_text:"Data yako inahifadhiwa kwenye seva salama kwa udhibiti wa ufikiaji na usimbaji. Kumbuka mtandao hauwezi kuwa salama kabisa. Tunahifadhi data kwa muda unaohitajika kwa huduma. Baada ya kufuta akaunti, data binafsi itafutwa au kufichwa kwa mujibu wa sheria.",
+        chap6:"6. Haki zako",
+        r1:"Kuangalia: unaweza kutazama taarifa za akaunti yako",
+        r2:"Kurekebisha: unaweza kubadilisha taarifa za akaunti",
+        r3:"Kufuta akaunti: data binafsi itafutwa baada ya ombi",
+        r4:"Kutoa idhini: baadhi ya kazi za programu zinaweza kukosa kufanya kazi",
+        chap6_end:"Ili kutekeleza haki hizi, tuma ombi kwa barua pepe yetu ya mawasiliano.",
+        chap7:"7. Kulinda watoto",
+        chap7_text:"Watoto chini ya miaka 18 wanapaswa kutumia programu kwa idhini ya mlezi. Ikiwa tunapata data ya mtoto bila idhini ya mlezi, tuma ujumbe na tutafuta data hiyo haraka.",
+        chap8:"8. Marekebisho ya sera",
+        chap8_text:"Tunaweza kurekebisha sera hii kwa sababu za biashara au sheria. Toleo jipya litaonyeshwa kwenye ukurasa. Kuendelea kutumia programu kunamaanisha unakubali mabadiliko.",
+        chap9:"9. Wasiliana nasi",
+        chap9_text:"Kwa maswala, ushauri au malalamiko kuhusu faragha na ushughulikiaji wa data binafsi, tuma barua pepe. Kwa kawaida tutajibu ndani ya siku 15 za kazi.",
+        finalTip:"Kusajili akaunti inaonyesha umesoma, umeelewa na unakubali masharti yote ya Mkataba wa Huduma na Sera ya Faragha hii."
+    }
+};
+
+let currentLang = localStorage.getItem("agri_lang") || "zh";
+
+function render(){
+    document.querySelectorAll("[data-i18n]").forEach(el=>{
+        const key = el.getAttribute("data-i18n");
+        if(locales[currentLang][key]){
+            el.innerHTML = locales[currentLang][key];
+        }
+    });
+    document.querySelectorAll(".lang-btn").forEach(btn=>btn.classList.remove("active"));
+    if(currentLang === "zh") document.querySelector('.lang-btn:nth-child(1)').classList.add("active");
+    if(currentLang === "en") document.querySelector('.lang-btn:nth-child(2)').classList.add("active");
+    if(currentLang === "sw") document.querySelector('.lang-btn:nth-child(3)').classList.add("active");
+}
+
+function setLang(lang){
+    currentLang = lang;
+    localStorage.setItem("agri_lang", lang);
+    render();
+}
+
+function goBack(){
+    window.location.href = "login.html";
+}
+
+window.onload = function(){
+    render();
+}
+</script>
+</body>
+</html>

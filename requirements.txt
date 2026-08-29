@@ -1,0 +1,15 @@
+fastapi
+uvicorn[standard]
+bcrypt
+pyjwt
+python-jose[cryptography]
+sqlalchemy
+pymysql
+python-dotenv
+langchain
+langchain-openai
+edge-tts
+openai-whisper
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.4.1
+torchvision==0.19.1

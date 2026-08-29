@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="pestDetect">病虫害识别</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+        }
+        body {
+            background-color: #f8f9fa;
+            min-height: 100vh;
+            padding-bottom: 24px;
+        }
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 20px 16px;
+        }
+        .header-bar {
+            display: flex;
+            align-items: center;
+            gap:12px;
+            margin-bottom:24px;
+        }
+        .back-btn{
+            font-size:22px;
+            cursor:pointer;
+            padding:4px;
+        }
+        .page-title{
+            font-size:24px;
+            font-weight:bold;
+        }
+
+        .upload-card{
+            background:#ffffff;
+            border-radius:20px;
+            padding:32px 20px;
+            text-align:center;
+            box-shadow:0 2px 12px rgba(0,0,0,0.05);
+            margin-bottom:20px;
+        }
+        .upload-icon{
+            font-size:64px;
+            margin-bottom:16px;
+        }
+        .tip-text{
+            color:#666;
+            margin-bottom:24px;
+        }
+        .btn-group{
+            display:flex;
+            gap:12px;
+        }
+        .btn{
+            flex:1;
+            padding:14px 8px;
+            border-radius:12px;
+            border:none;
+            font-size:16px;
+            cursor:pointer;
+        }
+        .btn.green{
+            background:#23a864;
+            color:#fff;
+        }
+        .btn.blue{
+            background:#2b65ec;
+            color:#fff;
+        }
+        .btn:disabled{
+            opacity:0.6;
+            cursor:not-allowed;
+        }
+
+        .preview-wrap{
+            margin-top:20px;
+        }
+        #previewImg{
+            max-width:100%;
+            border-radius:14px;
+            display:none;
+        }
+
+        .result-card{
+            background:#fff;
+            border-radius:20px;
+            padding:22px;
+            box-shadow:0 2px 12px rgba(0,0,0,0.05);
+            display:none;
+        }
+        .result-title{
+            font-size:18px;
+            font-weight:600;
+            margin-bottom:10px;
+        }
+        .result-item{
+            padding:8px 0;
+            border-bottom:1px solid #eee;
+        }
+        .loading-text{
+            text-align:center;
+            padding:20px;
+            color:#555;
+            display:none;
+        }
+        input[type="file"]{
+            display:none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header-bar">
+        <div class="back-btn" onclick="goBack()">←</div>
+        <div class="page-title" data-i18n="pestDetect">病虫害识别</div>
+    </div>
+
+    <div class="upload-card">
+        <div class="upload-icon">📷</div>
+        <div class="tip-text" data-i18n="detectTip">拍摄作物叶片、果实照片，识别病虫害</div>
+        <div class="btn-group">
+            <button class="btn green" id="btnCamera" onclick="triggerCamera()" data-i18n="takePhoto">拍照</button>
+            <button class="btn blue" id="btnAlbum" onclick="triggerAlbum()" data-i18n="selectAlbum">从相册选择</button>
+        </div>
+        <input type="file" id="fileCamera" accept="image/*" capture="environment">
+        <input type="file" id="fileAlbum" accept="image/*">
+
+        <div class="preview-wrap">
+            <img id="previewImg" alt="preview">
+        </div>
+    </div>
+
+    <div class="loading-text" id="loadingBox">
+        <span data-i18n="detecting">识别中，请稍候...</span>
+    </div>
+
+    <div class="result-card" id="resultBox">
+        <div class="result-title" data-i18n="detectResult">识别结果</div>
+        <div id="resultContent"></div>
+    </div>
+
+</div>
+
+<script>
+// 和首页保持一致多语言词典
+const locales = {
+    zh:{
+        pestDetect:"病虫害识别",
+        detectTip:"拍摄作物叶片、果实照片，识别病虫害",
+        takePhoto:"拍照",
+        selectAlbum:"从相册选择",
+        detecting:"识别中，请稍候...",
+        detectResult:"识别结果",
+        backHome:"返回首页",
+        noResult:"未识别到病害",
+        confidence:"置信度"
+    },
+    en:{
+        pestDetect:"Pest Detect",
+        detectTip:"Take photo of crop leaf/fruit for pest detection",
+        takePhoto:"Take Photo",
+        selectAlbum:"Select Album",
+        detecting:"Detecting, please wait...",
+        detectResult:"Detect Result",
+        backHome:"Back Home",
+        noResult:"No disease detected",
+        confidence:"Confidence"
+    },
+    sw:{
+        pestDetect:"Utambuzi wa wadudu",
+        detectTip:"Piga picha ya jani au matunda ya mimea",
+        takePhoto:"Piga picha",
+        selectAlbum:"Chagua kutoka picha",
+        detecting:"Inatambua, subiri kidogo...",
+        detectResult:"Matokeo ya utambuzi",
+        backHome:"Rudi nyumbani",
+        noResult:"Hakuna ugonjwa umepatikana",
+        confidence:"Uwezo wa utambuzi"
+    }
+};
+
+let currentLang = "en";
+const API_BASE = "http://127.0.0.1:8000";
+
+// 返回首页
+function goBack(){
+    window.location.href="./index.html";
+}
+
+// 触发相机
+function triggerCamera(){
+    document.getElementById("fileCamera").click();
+}
+// 相册选择
+function triggerAlbum(){
+    document.getElementById("fileAlbum").click();
+}
+
+// 文件选择监听
+document.getElementById("fileCamera").onchange = handleFileSelect;
+document.getElementById("fileAlbum").onchange = handleFileSelect;
+
+async function handleFileSelect(e){
+    const file = e.target.files[0];
+    if(!file) return;
+
+    //图片预览
+    const preview = document.getElementById("previewImg");
+    preview.style.display = "block";
+    preview.src = URL.createObjectURL(file);
+
+    document.getElementById("loadingBox").style.display = "block";
+    document.getElementById("resultBox").style.display = "none";
+
+    const token = localStorage.getItem("token");
+    if(!token){
+        window.location.href="./login.html";
+        return;
+    }
+
+    //构造formData上传图片
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try{
+        //这里替换成你的后端病虫害识别接口
+        const resp = await fetch(`${API_BASE}/api/detect_pest`,{
+            method:"POST",
+            headers:{
+                "Authorization": `Bearer ${token}`
+            },
+            body: formData
+        });
+        const resJson = await resp.json();
+        renderResult(resJson);
+    }catch(err){
+        console.error(err);
+        document.getElementById("resultContent").innerText = "API error";
+        document.getElementById("resultBox").style.display = "block";
+    }finally {
+        document.getElementById("loadingBox").style.display = "none";
+    }
+}
+
+function renderResult(data){
+    const box = document.getElementById("resultBox");
+    const content = document.getElementById("resultContent");
+    box.style.display = "block";
+    //根据后端返回结构自行调整
+    if(!data || !data.diseases || data.diseases.length ===0){
+        content.innerHTML = `<div class="result-item">${locales[currentLang].noResult}</div>`;
+    }else{
+        let html = "";
+        data.diseases.forEach(item=>{
+            html +=`
+            <div class="result-item">
+                <div>${item.name}</div>
+                <div style="font-size:14px;color:#666;">${locales[currentLang].confidence}: ${(item.score*100).toFixed(1)}%</div>
+            </div>
+            `;
+        });
+        content.innerHTML = html;
+    }
+}
+
+//多语言渲染
+function renderI18n(){
+    document.querySelectorAll('[data-i18n]').forEach(el=>{
+        const k = el.getAttribute("data-i18n");
+        if(locales[currentLang][k]) el.innerText = locales[currentLang][k];
+    })
+}
+
+window.onload = function(){
+    //登录校验
+    const token = localStorage.getItem("token");
+    if(!token){
+        window.location.href="./login.html";
+        return;
+    }
+    //读取本地存储语言，和首页统一
+    const savedLang = localStorage.getItem("agri_lang");
+    if(savedLang) currentLang = savedLang;
+    renderI18n();
+}
+</script>
+</body>
+</html>
